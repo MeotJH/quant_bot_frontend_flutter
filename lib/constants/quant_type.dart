@@ -8,6 +8,11 @@ enum QuantType {
     name: '추세추종법',
   ),
 
+  ETC(
+    code: 'ETC',
+    name: '기타 투자법',
+  ),
+
   SELECT(
     code: 'SELECT',
     name: '선택',

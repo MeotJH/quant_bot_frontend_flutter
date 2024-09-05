@@ -29,6 +29,15 @@ class _CustomDialogDropDownState extends State<CustomDialogDropDown> {
   Widget build(BuildContext context) {
     final int lastIndex = QuantType.values.length - 1;
     return AlertDialog(
+      title: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Center(
+          child: Text('투자 방법 선택', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
       elevation: 0,
       contentPadding: const EdgeInsets.all(0),
       insetPadding: const EdgeInsets.all(0),
@@ -89,7 +98,6 @@ class _CustomDialogDropDownState extends State<CustomDialogDropDown> {
                   item.name,
                   style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/components/custom_dialog_dropdown.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/core/utils.dart';
@@ -13,6 +14,8 @@ class StockListPage extends ConsumerStatefulWidget {
 }
 
 class _StockListPageState extends ConsumerState<StockListPage> {
+  final String _ticker = '';
+
   @override
   Widget build(BuildContext context) {
     final stocks = ref.watch(stocksProvider);
@@ -32,8 +35,7 @@ class _StockListPageState extends ConsumerState<StockListPage> {
                     return InkWell(
                       onTap: () async {
                         final item = await CustomDialogDropDown.showCustomDialog(context);
-                        print('stock: $item, stock: ${stock.ticker}');
-                        //context.push('')
+                        context.push('/quants/${item.code}/${stock.ticker}');
                       },
                       child: Container(
                         color: Colors.white,
@@ -50,7 +52,7 @@ class _StockListPageState extends ConsumerState<StockListPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                stock.ticker,
+                                'ticker : ${stock.ticker} |  name : ${stock.name} ',
                                 style: const TextStyle(
                                   color: Color(0xFF222222),
                                   fontSize: 16,
@@ -68,11 +70,11 @@ class _StockListPageState extends ConsumerState<StockListPage> {
                                     height: 26,
                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                     decoration: ShapeDecoration(
-                                      color: stock.open > stock.close ? CustomColors.success : CustomColors.error,
+                                      color: stock.pctchange.contains('-') ? CustomColors.success : CustomColors.error,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                                     ),
                                     child: Text(
-                                      stock.open > stock.close ? '하락' : '상승', //상태
+                                      stock.pctchange, //상태
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 12,
@@ -92,7 +94,7 @@ class _StockListPageState extends ConsumerState<StockListPage> {
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                                     ),
                                     child: Text(
-                                      '${calculatePercentageChange(open: stock.open, close: stock.close).toString()} %', //구역
+                                      stock.netchange, //구역
                                       style: const TextStyle(
                                         color: Color(0xFF222222),
                                         fontSize: 12,
@@ -103,7 +105,7 @@ class _StockListPageState extends ConsumerState<StockListPage> {
                                     width: 12,
                                   ),
                                   Text(
-                                    '${roundToSecondDecimal(stock.close)} \$', //수익률
+                                    stock.lastsale, //수익률
                                     style: const TextStyle(
                                       color: Color(0xFFA0A0A0),
                                       fontSize: 14,

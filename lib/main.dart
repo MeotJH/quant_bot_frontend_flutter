@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quant_bot_flutter/pages/stocks_page.dart';
+import 'package:quant_bot_flutter/providers/router_provider.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: QuantBot()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class QuantBot extends ConsumerStatefulWidget {
+  const QuantBot({super.key});
 
+  @override
+  ConsumerState<QuantBot> createState() => _QuantBotState();
+}
+
+class _QuantBotState extends ConsumerState<QuantBot> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'Quant Bot',
       theme: ThemeData(
+        fontFamily: 'Pretendard',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white).copyWith(background: Colors.white),
         dialogBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
@@ -23,7 +30,7 @@ class MyApp extends StatelessWidget {
           scrolledUnderElevation: 0,
         ),
       ),
-      home: const StockListPage(),
+      routerConfig: ref.read(routeProvider),
     );
   }
 }
