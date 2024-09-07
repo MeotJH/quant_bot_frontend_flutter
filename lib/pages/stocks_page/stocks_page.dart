@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/components/custom_dialog_dropdown.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/core/utils.dart';
+import 'package:quant_bot_flutter/pages/stocks_page/stocks_page_search_bar.dart';
 import 'package:quant_bot_flutter/providers/stocks_provider.dart';
 
 class StockListPage extends ConsumerStatefulWidget {
@@ -21,27 +22,23 @@ class _StockListPageState extends ConsumerState<StockListPage> {
     final stocks = ref.watch(stocksProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stock List'),
+        title: Row(
+          children: [
+            Image.asset(
+              'images/quant_bot.png',
+              height: 70,
+            ),
+            const Text('Quantwo Bot',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+          ],
+        ),
       ),
       body: Container(
           padding: const EdgeInsets.symmetric(vertical: 8),
           color: const Color(0xFFF0F0F0),
           child: Column(
             children: [
-              Container(
-                child: const TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
+              const StocksPageSearchBar(),
               const SizedBox(
                 height: 8,
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quant_bot_flutter/pages/stocks_page.dart';
+import 'package:quant_bot_flutter/pages/stocks_page/stocks_page.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 
 void main() {

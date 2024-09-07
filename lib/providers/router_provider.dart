@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/pages/quant_page/quant_page.dart';
-import 'package:quant_bot_flutter/pages/stocks_page.dart';
+import 'package:quant_bot_flutter/pages/stocks_page/stocks_page.dart';
 
 class RouteNotifier extends Notifier<GoRouter> {
   late GoRouter _route;
