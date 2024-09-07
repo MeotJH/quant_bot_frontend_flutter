@@ -16,6 +16,17 @@ class QuantPageTable extends StatelessWidget {
         3: FlexColumnWidth(1),
       },
       children: [
+        TableRow(children: [
+          _buildTableHeader('PER'),
+          _buildTableHeader('EPS'),
+          _buildTableHeader('EV/EBITDA'),
+        ]),
+        // 세 번째 데이터 행
+        TableRow(children: [
+          _buildTableCell(recentStockOne.trailingPE),
+          _buildTableCell(recentStockOne.trailingEps),
+          _buildTableCell(_getEvEbitda(recentStockOne).toStringAsFixed(2)),
+        ]),
         // 첫 번째 행: 제목들
         TableRow(children: [
           _buildTableHeader('전일종가'),
@@ -41,18 +52,6 @@ class QuantPageTable extends StatelessWidget {
           _buildTableCell('\$${recentStockOne.dayLow}',
               color: CustomColors.clearBlue100),
           _buildTableCell('\$${recentStockOne.enterpriseValue}'),
-        ]),
-
-        TableRow(children: [
-          _buildTableHeader('PER'),
-          _buildTableHeader('EPS'),
-          _buildTableHeader('EV/EBITDA'),
-        ]),
-        // 세 번째 데이터 행
-        TableRow(children: [
-          _buildTableCell(recentStockOne.trailingPE),
-          _buildTableCell(recentStockOne.trailingEps),
-          _buildTableCell(_getEvEbitda(recentStockOne).toStringAsFixed(2)),
         ]),
       ],
     );

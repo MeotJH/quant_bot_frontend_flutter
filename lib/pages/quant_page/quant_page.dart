@@ -98,7 +98,7 @@ class _QuantPageState extends ConsumerState<QuantPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               alignment: Alignment.centerLeft,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,23 +131,11 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                       ),
                     ],
                   ),
-                  // TextButton(
-                  //   style: TextButton.styleFrom(
-                  //     foregroundColor: Colors.white,
-                  //     backgroundColor: CustomColors.clearBlue100,
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(4),
-                  //     ),
-                  //   ),
-                  //   onPressed: () {},
-                  //   child: const Text('알림 등록',
-                  //       style: TextStyle(color: Colors.white)),
-                  // )
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8.0),
               child: trendFollow.when(
                 data: (data) {
                   final recentStockData = data.recentStockOne;
@@ -162,7 +150,7 @@ class _QuantPageState extends ConsumerState<QuantPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               alignment: Alignment.centerLeft,
               child: const Text(
                 '주식 정보',

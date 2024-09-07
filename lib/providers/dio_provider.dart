@@ -12,21 +12,6 @@ class DioNotifier extends Notifier<Dio> {
         baseUrl: local,
       ),
     );
-
-    // _dio.interceptors.add(
-    //   InterceptorsWrapper(
-    //     onError: (DioException error, ErrorInterceptorHandler handler) async {
-    //       final int statusCode = error.response?.statusCode ?? 0;
-
-    //       if (statusCode == 403 || statusCode == 401 || statusCode == 422) {
-    //         final route = ref.read(routeProvider);
-    //         route.go('/');
-    //       }
-
-    //       return handler.next(error);
-    //     },
-    //   ),
-    // );
   }
 
   @override

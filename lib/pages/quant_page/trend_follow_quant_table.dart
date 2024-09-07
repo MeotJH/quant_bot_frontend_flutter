@@ -132,12 +132,14 @@ class _TrendFollowQuantTableState extends State<TrendFollowQuantTable>
               flex: 1,
               child: InkWell(
                 onTap: () {
-                  final dialogType = profit > 0 ? '예상 수익' : '예상 방어 손실';
+                  final words = profit > 0
+                      ? ['매수', '예상 수익', '실현했을 것입니다.']
+                      : ['매도', '예상 방어 손실', '잃지 않았을 것입니다.'];
                   showQuantBotDialog(
                       context: context,
-                      title: dialogType,
+                      title: words[1],
                       content:
-                          '$dialogType은 차트 초록선(75MA)과 파란선(종가)의 교차점을 기준으로 계산됩니다.');
+                          '만약 알람 설정 후 ${words[0]} 시점에 ${words[0]} 했다면 ${words[1]}을 ${words[2]} ');
                 },
                 child: Icon(
                   CupertinoIcons.question_circle_fill,
