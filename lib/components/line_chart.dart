@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
@@ -6,38 +8,84 @@ class QuantLineChart extends StatelessWidget {
   final List<Map<String, double>> firstChartData;
   final List<Map<String, double>> secondChartData;
 
-  const QuantLineChart({
+  final List<Map<String, dynamic>> filteredData;
+  final double minYValue;
+  final double maxYValue;
+
+  QuantLineChart({
     super.key,
     required this.firstChartData,
     required this.secondChartData,
-  });
+  })  : filteredData =
+            firstChartData.where((element) => element['y'] != null).toList(),
+        minYValue = firstChartData
+            .where((element) => element['y'] != null)
+            .map((point) => point['y'] as double)
+            .reduce(min),
+        maxYValue = firstChartData
+            .where((element) => element['y'] != null)
+            .map((point) => point['y'] as double)
+            .reduce(max);
 
   @override
   Widget build(BuildContext context) {
     return LineChart(
       LineChartData(
+        lineTouchData: LineTouchData(
+          touchTooltipData: LineTouchTooltipData(
+            fitInsideHorizontally: true,
+            fitInsideVertically: true,
+            tooltipRoundedRadius: 3,
+            tooltipPadding: const EdgeInsets.all(8),
+            getTooltipItems: (touchedSpots) {
+              return touchedSpots.map((LineBarSpot touchedSpot) {
+                final textStyle = TextStyle(
+                  color: touchedSpot.bar.color,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                );
+                return LineTooltipItem(
+                  touchedSpot.y.toStringAsFixed(2),
+                  textStyle,
+                );
+              }).toList();
+            },
+          ),
+          getTouchedSpotIndicator:
+              (LineChartBarData barData, List<int> spotIndexes) {
+            return spotIndexes.map((index) {
+              return TouchedSpotIndicatorData(
+                FlLine(
+                  color: CustomColors.gray40,
+                  strokeWidth: 2,
+                  dashArray: [5, 5],
+                ),
+                FlDotData(
+                  show: true,
+                  getDotPainter: (spot, percent, bar, index) =>
+                      FlDotCirclePainter(
+                    radius: 3,
+                    color: CustomColors.gray80,
+                    strokeWidth: 2,
+                    strokeColor: Colors.white,
+                  ),
+                ),
+              );
+            }).toList();
+          },
+        ),
         lineBarsData: [
           LineChartBarData(
             spots: firstChartData.map((element) {
               return FlSpot(element['x'] ?? 0, element['y'] ?? 0);
-            }).toList()
-            // [
-            //   const FlSpot(0, 1),
-            //   const FlSpot(1, 1.5),
-            //   const FlSpot(2, 1.4),
-            //   const FlSpot(3, 3.4),
-            //   const FlSpot(4, 2),
-            //   const FlSpot(5, 2.2),
-            //   const FlSpot(6, 1.8),
-            // ]
-            ,
+            }).toList(),
             isCurved: true,
-            color: CustomColors.brightYellow100,
+            color: CustomColors.clearBlue120,
             barWidth: 4,
             isStrokeCapRound: true,
             belowBarData: BarAreaData(show: false),
             dotData: const FlDotData(
-              show: false, // dot 표시를 숨김
+              show: false,
             ),
           ),
           LineChartBarData(
@@ -45,38 +93,39 @@ class QuantLineChart extends StatelessWidget {
               return FlSpot(element['x'] ?? 0, element['y'] ?? 0);
             }).toList(),
             isCurved: true,
-            color: CustomColors.clearBlue100,
-            barWidth: 4,
+            color: CustomColors.freshGreen100,
+            barWidth: 2,
             isStrokeCapRound: true,
             belowBarData: BarAreaData(show: false),
             dotData: const FlDotData(
-              show: false, // dot 표시를 숨김
+              show: false,
             ),
           ),
         ],
         titlesData: const FlTitlesData(
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-              showTitles: false, // X축 레이블 숨기기
+              showTitles: false,
             ),
           ),
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
-              showTitles: false, // Y축 레이블 숨기기
+              showTitles: false,
             ),
           ),
           topTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false), // 필요 시 위쪽 축도 숨길 수 있음
+            sideTitles: SideTitles(showTitles: false),
           ),
           rightTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false), // 필요 시 오른쪽 축도 숨길 수 있음
+            sideTitles: SideTitles(showTitles: false),
           ),
         ),
         borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: Colors.black),
+          show: false,
         ),
         gridData: const FlGridData(show: false),
+        maxY: maxYValue + 20,
+        minY: minYValue - 20,
       ),
     );
   }

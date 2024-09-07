@@ -30,5 +30,6 @@ class CustomColors {
   static Color black = const Color(0xFF000000);
 
   static Color error = const Color(0xFFFF3D00);
+  static Color error10 = const Color(0xFFFFF0E9);
   static Color success = const Color(0xFF0091F9);
 }

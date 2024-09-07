@@ -22,7 +22,8 @@ class _QuantBotState extends ConsumerState<QuantBot> {
       title: 'Quant Bot',
       theme: ThemeData(
         fontFamily: 'Pretendard',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white).copyWith(background: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
+            .copyWith(background: Colors.white),
         dialogBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,

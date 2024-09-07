@@ -26,113 +26,131 @@ class _StockListPageState extends ConsumerState<StockListPage> {
       body: Container(
           padding: const EdgeInsets.symmetric(vertical: 8),
           color: const Color(0xFFF0F0F0),
-          child: stocks.when(
-              data: (stocks) {
-                return ListView.builder(
-                  itemCount: stocks.length,
-                  itemBuilder: (context, index) {
-                    final stock = stocks[index];
-                    return InkWell(
-                      onTap: () async {
-                        final item = await CustomDialogDropDown.showCustomDialog(context);
-                        context.push('/quants/${item.code}/${stock.ticker}');
-                      },
-                      child: Container(
-                        color: Colors.white,
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(vertical: 1),
-                        height: 90,
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 16,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'ticker : ${stock.ticker} |  name : ${stock.name} ',
-                                style: const TextStyle(
-                                  color: Color(0xFF222222),
-                                  fontSize: 16,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: 65,
-                                    height: 26,
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    decoration: ShapeDecoration(
-                                      color: stock.pctchange.contains('-') ? CustomColors.success : CustomColors.error,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                    ),
-                                    child: Text(
-                                      stock.pctchange, //상태
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: 70,
-                                    height: 26,
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    decoration: ShapeDecoration(
-                                      color: const Color(0xFFF5F5F5),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                    ),
-                                    child: Text(
-                                      stock.netchange, //구역
-                                      style: const TextStyle(
-                                        color: Color(0xFF222222),
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  Text(
-                                    stock.lastsale, //수익률
-                                    style: const TextStyle(
-                                      color: Color(0xFFA0A0A0),
-                                      fontSize: 14,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w400,
-                                      height: 0.09,
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-              error: (error, stack) => Center(
-                    child: Container(
-                        alignment: Alignment.center,
-                        color: CustomColors.white,
-                        child: const Text('문제가 생겼습니다. \n 금방 조치할테니 조금만 기다려주세요.', textAlign: TextAlign.center)),
+          child: Column(
+            children: [
+              Container(
+                child: const TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
-              loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ))),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Expanded(
+                child: stocks.when(
+                    data: (stocks) {
+                      return ListView.builder(
+                        itemCount: stocks.length,
+                        itemBuilder: (context, index) {
+                          final stock = stocks[index];
+                          return InkWell(
+                            onTap: () async {
+                              final item =
+                                  await CustomDialogDropDown.showCustomDialog(
+                                      context);
+                              context
+                                  .push('/quants/${item.code}/${stock.ticker}');
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              width: double.infinity,
+                              margin: const EdgeInsets.symmetric(vertical: 1),
+                              height: 90,
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          stock.ticker,
+                                          style: const TextStyle(
+                                            color: Color(0xFF222222),
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 200,
+                                          child: Text(
+                                            stock.name,
+                                            style: TextStyle(
+                                              color: CustomColors.gray50,
+                                              fontSize: 14,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.center,
+                                          height: 32,
+                                          width: 100,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 4),
+                                          decoration: ShapeDecoration(
+                                            color: stock.pctchange.contains('-')
+                                                ? CustomColors.success
+                                                : CustomColors.error,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(4)),
+                                          ),
+                                          child: Text(
+                                            '\$${double.parse(stock.lastsale.replaceAll('\$', '')).toStringAsFixed(2)}', //상태
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    error: (error, stack) => Center(
+                          child: Container(
+                              alignment: Alignment.center,
+                              color: CustomColors.white,
+                              child: const Text(
+                                  '문제가 생겼습니다. \n 금방 조치할테니 조금만 기다려주세요.',
+                                  textAlign: TextAlign.center)),
+                        ),
+                    loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        )),
+              ),
+            ],
+          )),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
