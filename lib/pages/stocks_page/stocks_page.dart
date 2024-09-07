@@ -25,7 +25,7 @@ class _StockListPageState extends ConsumerState<StockListPage> {
         title: Row(
           children: [
             Image.asset(
-              'images/quant_bot.png',
+              'assets/images/quant_bot.png',
               height: 70,
             ),
             const Text('Quantwo Bot',

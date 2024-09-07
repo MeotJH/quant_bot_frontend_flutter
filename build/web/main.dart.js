@@ -85682,7 +85682,7 @@ this.ip()}}
 A.ql.prototype={
 ag(){return new A.VU(B.j)}}
 A.VU.prototype={
-G(a){var s=null,r=this.gAj().Ja($.avg(),t.dv),q=t.p,p=A.avw(A.ni(A.b([new A.rY(A.aKh(s,s,new A.wH("images/quant_bot.png",s,s)),70,s),B.Re],q),B.a8,B.ag,B.an))
+G(a){var s=null,r=this.gAj().Ja($.avg(),t.dv),q=t.p,p=A.avw(A.ni(A.b([new A.rY(A.aKh(s,s,new A.wH("assets/images/quant_bot.png",s,s)),70,s),B.Re],q),B.a8,B.ag,B.an))
 q=A.cK(s,A.ev(A.b([B.ML,B.yu,A.JJ(A.HN(r,new A.anh(),new A.ani(),new A.anj(),t.LW,t.l7),1)],q),B.a8,B.ag,B.an),B.p,B.CF,s,s,s,s,s,B.cY,s)
 return A.asU(p,q,new A.wZ(B.Gc,s,s))}}
 A.anh.prototype={
