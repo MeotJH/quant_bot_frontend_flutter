@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
 
 class DioNotifier extends Notifier<Dio> {
-  String local = 'http://localhost:8080/api/v1';
+  String local = 'http://quantwo-bot.iptime.org/api/v1';
   late Dio _dio;
   DioNotifier() {
     _dio = Dio(

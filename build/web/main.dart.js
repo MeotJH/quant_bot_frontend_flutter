@@ -26656,7 +26656,7 @@ _.a=null
 _.b=b
 _.c=null},
 ank:function ank(a){this.a=a},
-aGM(){var s=new A.oO(),r=A.aFC("http://localhost:8080/api/v1"),q=new A.Jk($,new A.KL(A.b([B.AO],t.i6)),$,new A.a4f(51200),!1)
+aGM(){var s=new A.oO(),r=A.aFC("http://quantwo-bot.iptime.org/api/v1"),q=new A.Jk($,new A.KL(A.b([B.AO],t.i6)),$,new A.a4f(51200),!1)
 q.U4$=r
 q.U5$=new A.a_7(A.aL(t.lZ))
 s.d=q
