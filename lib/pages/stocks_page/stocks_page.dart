@@ -148,18 +148,6 @@ class _StockListPageState extends ConsumerState<StockListPage> {
               ),
             ],
           )),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart_rounded),
-            label: 'Stock',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Home',
-          ),
-        ],
-      ),
     );
   }
 }

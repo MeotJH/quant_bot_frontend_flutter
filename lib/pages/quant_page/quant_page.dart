@@ -39,6 +39,7 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: trendFollow.when(
                   data: (data) {
+                    print(data);
                     final recentOne = data.recentStockOne;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +151,7 @@ class _QuantPageState extends ConsumerState<QuantPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               alignment: Alignment.centerLeft,
               child: const Text(
                 '주식 정보',
@@ -182,6 +183,7 @@ class _QuantPageState extends ConsumerState<QuantPage> {
   }
 
   String _calNetChange(QuantStockModel recentStockOne) {
+    print(recentStockOne);
     final double netChange = double.parse(recentStockOne.currentPrice) -
         double.parse(recentStockOne.previousClose);
 
