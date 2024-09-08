@@ -1,11 +1,11 @@
 {
-    "name": "quant_bot_flutter",
-    "short_name": "quant_bot_flutter",
+    "name": "QuanTwoBot",
+    "short_name": "QuanTwoBot",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Quant Bot to help you with your trading",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
