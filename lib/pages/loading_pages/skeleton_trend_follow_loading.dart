@@ -28,8 +28,10 @@ class SkeletonItems extends StatelessWidget {
   final Map<String, Widget> skeletonMap = {
     SkeletonTrendFollowLoading.stockInfoSkeleton: const StockInfoSkeleton(),
     SkeletonTrendFollowLoading.stockChartSkeleton: const StockChartSkeleton(),
-    SkeletonTrendFollowLoading.trendFollowCardSkeleton: const StockContainerSkeleton(),
-    SkeletonTrendFollowLoading.stockInfoCardSkeleton: const StockContainerSkeleton(),
+    SkeletonTrendFollowLoading.trendFollowCardSkeleton:
+        const StockContainerSkeleton(),
+    SkeletonTrendFollowLoading.stockInfoCardSkeleton:
+        const StockContainerSkeleton(),
   };
   @override
   Widget build(BuildContext context) {
@@ -84,11 +86,13 @@ class StockChartSkeleton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: const EdgeInsets.all(8),
-          width: double.infinity,
-          height: 300,
-          color: Colors.white,
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.all(8),
+            width: double.infinity,
+            height: 300,
+            color: Colors.white,
+          ),
         ),
       ],
     );

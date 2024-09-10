@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:quant_bot_flutter/components/custom_toast.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -11,7 +13,9 @@ class LoginScreen extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            context.go('/');
+          },
         ),
       ),
       body: Padding(
@@ -77,7 +81,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 10),
             // 네이버 로그인 버튼
             ElevatedButton(
-              onPressed: () {},
+              onPressed: null,
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: const Color(0xFF03C75A),
@@ -121,7 +125,7 @@ class LoginScreen extends StatelessWidget {
             const Spacer(),
             // Apple 로그인 버튼
             OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: null,
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
                 side: const BorderSide(color: Colors.black),

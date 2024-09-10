@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:quant_bot_flutter/core/colors.dart';
 
 class CustomToast extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color textColor;
   final Color backgroundColor;
   final String text;
+  final bool isWarn;
 
   const CustomToast({
     super.key,
@@ -12,6 +14,7 @@ class CustomToast extends StatelessWidget {
     required this.textColor,
     required this.backgroundColor,
     required this.text,
+    required this.isWarn,
   });
 
   @override
@@ -25,7 +28,8 @@ class CustomToast extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
             margin: const EdgeInsets.symmetric(horizontal: 16.0),
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.7),
@@ -34,7 +38,10 @@ class CustomToast extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.error_outline, color: Colors.red),
+                isWarn
+                    ? const Icon(Icons.error_outline, color: Colors.red)
+                    : Icon(Icons.check_circle_outline,
+                        color: CustomColors.clearBlue120),
                 //SizedBox(width: 8.0),
                 Text(
                   text,
@@ -50,7 +57,8 @@ class CustomToast extends StatelessWidget {
   }
 }
 
-void showCustomToast(BuildContext context, String message, {VoidCallback? onPressed}) {
+void showCustomToast(BuildContext context, String message,
+    {VoidCallback? onPressed, bool isWarn = false}) {
   final overlay = Overlay.of(context);
   final overlayEntry = OverlayEntry(
     builder: (context) => CustomToast(
@@ -58,6 +66,7 @@ void showCustomToast(BuildContext context, String message, {VoidCallback? onPres
       textColor: Colors.white,
       backgroundColor: Colors.black.withOpacity(0.7),
       onPressed: onPressed,
+      isWarn: isWarn,
     ),
   );
 
