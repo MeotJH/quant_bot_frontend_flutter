@@ -48,13 +48,11 @@ class RouteNotifier extends Notifier<GoRouter> {
         GoRoute(
           path: _profilePath,
           builder: (context, state) {
-            final String? token = ref.read(authProvider).when(
-                data: (data) => data,
-                error: (e, a) => null,
-                loading: () => null);
-            print('token: $token');
+            final String? token =
+                ref.read(authProvider).when(data: (data) => data, error: (e, a) => null, loading: () => null);
+
             if (token == null) {
-              return const LoginPage();
+              return const LoginScreen();
             }
 
             return const ProfilePage();
@@ -62,7 +60,7 @@ class RouteNotifier extends Notifier<GoRouter> {
         ),
         GoRoute(
           path: _loginPath,
-          builder: (context, state) => const LoginPage(),
+          builder: (context, state) => const LoginScreen(),
         ),
       ];
 
@@ -118,5 +116,4 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
   }
 }
 
-final routeProvider =
-    NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);
+final routeProvider = NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);
