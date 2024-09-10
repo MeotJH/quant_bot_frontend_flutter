@@ -21,44 +21,27 @@ class LoginScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 40),
             // 로고 및 슬로건
-            const Column(
+            Column(
               children: [
-                Text(
-                  'KREAM',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Image.asset(
+                  'assets/images/quant_bot.png',
+                  height: 200,
                 ),
-                Text(
-                  'KICKS RULE EVERYTHING AROUND ME',
+                const Text(
+                  "I'm Quant Two Bot, your personal quant",
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),
             const SizedBox(height: 40),
             // 이메일 주소 입력 필드
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('이메일 주소', style: TextStyle(fontSize: 14)),
+                Text('E-mail', style: TextStyle(fontSize: 14)),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: '예) kream@kream.co.kr',
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                        child: const Text(
-                          'kream_signin',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
+                    hintText: 'EX) quant-bot@mail.dot',
                   ),
                 ),
               ],
@@ -68,7 +51,7 @@ class LoginScreen extends StatelessWidget {
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('비밀번호', style: TextStyle(fontSize: 14)),
+                Text('PassWord', style: TextStyle(fontSize: 14)),
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
@@ -85,6 +68,9 @@ class LoginScreen extends StatelessWidget {
                 foregroundColor: Colors.grey[300],
                 backgroundColor: Colors.black,
                 minimumSize: const Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               child: const Text('로그인'),
             ),
@@ -96,6 +82,9 @@ class LoginScreen extends StatelessWidget {
                 foregroundColor: Colors.white,
                 backgroundColor: const Color(0xFF03C75A),
                 minimumSize: const Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               child: const Text('네이버로 로그인'),
             ),
@@ -136,6 +125,9 @@ class LoginScreen extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
                 side: const BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
               icon: const Icon(Icons.apple, color: Colors.black),
               label: const Text(

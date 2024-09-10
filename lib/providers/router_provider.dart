@@ -17,7 +17,7 @@ class RouteNotifier extends Notifier<GoRouter> {
         ShellRoute(
           builder: (context, state, child) {
             // 공통 Scaffold와 BottomNavigationBar 추가
-            return ScaffoldWithNavBar(child: child);
+            return ScaffoldWithNavBar(state: state, child: child);
           },
           routes: _buildRoutes(),
         ),
@@ -48,11 +48,16 @@ class RouteNotifier extends Notifier<GoRouter> {
         GoRoute(
           path: _profilePath,
           builder: (context, state) {
-            final String? token =
-                ref.read(authProvider).when(data: (data) => data, error: (e, a) => null, loading: () => null);
+            final String? token = ref.read(authProvider).when(
+                data: (data) => data,
+                error: (e, a) => null,
+                loading: () => null);
 
             if (token == null) {
-              return const LoginScreen();
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                GoRouter.of(context).go('/login');
+              });
+              return const SizedBox.shrink();
             }
 
             return const ProfilePage();
@@ -70,8 +75,10 @@ class RouteNotifier extends Notifier<GoRouter> {
 
 class ScaffoldWithNavBar extends ConsumerStatefulWidget {
   final Widget child;
+  final GoRouterState state;
 
-  const ScaffoldWithNavBar({super.key, required this.child});
+  const ScaffoldWithNavBar(
+      {super.key, required this.child, required this.state});
 
   @override
   ConsumerState<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
@@ -84,36 +91,47 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: CustomColors.clearBlue120,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+      bottomNavigationBar: isLoginPage()
+          ? null // 로그인 페이지 일떄는 BottomNavigationBar를 숨김
+          : BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              selectedItemColor: CustomColors.black,
+              unselectedItemColor: CustomColors.gray40,
+              onTap: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
 
-          switch (index) {
-            case 0:
-              context.go('/'); // 주식 리스트로 이동
-              break;
-            case 1:
-              context.go('/profile'); // 프로필 페이지로 이동
-              break;
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart_rounded),
-            label: 'Stocks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
+                switch (index) {
+                  case 0:
+                    context.go('/');
+                    break;
+                  case 1:
+                    context.go('/profile');
+                    break;
+                }
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.show_chart_rounded),
+                  label: 'Stocks',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
+            ),
     );
+  }
+
+  bool isLoginPage() {
+    final path = widget.state.fullPath;
+    const String loginPath = '/login';
+    bool hideBottomNav = path == loginPath;
+    return hideBottomNav;
   }
 }
 
-final routeProvider = NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);
+final routeProvider =
+    NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);
