@@ -72,11 +72,12 @@ class LoginScreen extends ConsumerWidget {
             // 로그인 버튼
             ElevatedButton(
               onPressed: () async {
-                final signIn = await ref.read(authProvider(
+                await ref.read(authProvider(
                   ref.watch(
                     authFormProvider,
                   ),
                 ).future);
+
                 context.go('/');
               },
               style: ElevatedButton.styleFrom(

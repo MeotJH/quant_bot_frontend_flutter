@@ -36,7 +36,6 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
 
   Future<String?> getToken() async {
     final String? token = await _loadToken();
-    print('this is token: $token');
     return token;
   }
 }

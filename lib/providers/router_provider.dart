@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
-import 'package:quant_bot_flutter/pages/login_page.dart';
+import 'package:quant_bot_flutter/pages/auth_pages/login_page.dart';
 import 'package:quant_bot_flutter/pages/quant_page/quant_page.dart';
 import 'package:quant_bot_flutter/pages/stocks_page/stocks_page.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import '../pages/profile_page/profile_page.dart';
+
+// navigatorKey를 전역에서 사용하기 위해 선언
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class RouteNotifier extends Notifier<GoRouter> {
   late final GoRouter _router;
 
   RouteNotifier() {
     _router = GoRouter(
+      navigatorKey: navigatorKey,
       routes: [
         ShellRoute(
           builder: (context, state, child) {

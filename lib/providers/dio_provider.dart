@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:riverpod/riverpod.dart';
 
 class DioNotifier extends Notifier<Dio> {
@@ -16,6 +19,16 @@ class DioNotifier extends Notifier<Dio> {
 
   @override
   Dio build() {
+    _dio.interceptors.add(InterceptorsWrapper(
+      onError: (error, handler) async {
+        if (error.response?.statusCode == 401) {
+          CustomToast.show(message: '비밀번호가 틀렸어여!!', isWarn: true);
+          return;
+        }
+
+        return handler.next(error);
+      },
+    ));
     return _dio;
   }
 
