@@ -32,6 +32,26 @@ class RouteNotifier extends Notifier<GoRouter> {
   static const String _profilePath = '/profile';
   static const String _loginPath = '/login';
 
+  Widget _buildWithToken(BuildContext context, NotifierProviderRef<GoRouter> ref) {
+    return FutureBuilder<String?>(
+      future: ref.read(authStorageProvider.future),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+
+        if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            GoRouter.of(context).go('/login');
+          });
+          return const SizedBox.shrink();
+        }
+
+        return const ProfilePage();
+      },
+    );
+  }
+
   List<GoRoute> _buildRoutes() => [
         GoRoute(
           path: _stockListPath,
@@ -48,19 +68,7 @@ class RouteNotifier extends Notifier<GoRouter> {
         GoRoute(
           path: _profilePath,
           builder: (context, state) {
-            final String? token = ref.read(authProvider).when(
-                data: (data) => data,
-                error: (e, a) => null,
-                loading: () => null);
-
-            if (token == null) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                GoRouter.of(context).go('/login');
-              });
-              return const SizedBox.shrink();
-            }
-
-            return const ProfilePage();
+            return _buildWithToken(context, ref);
           },
         ),
         GoRoute(
@@ -77,8 +85,7 @@ class ScaffoldWithNavBar extends ConsumerStatefulWidget {
   final Widget child;
   final GoRouterState state;
 
-  const ScaffoldWithNavBar(
-      {super.key, required this.child, required this.state});
+  const ScaffoldWithNavBar({super.key, required this.child, required this.state});
 
   @override
   ConsumerState<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
@@ -133,5 +140,4 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
   }
 }
 
-final routeProvider =
-    NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);
+final routeProvider = NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);

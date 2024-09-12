@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quant_bot_flutter/components/custom_toast.dart';
+import 'package:quant_bot_flutter/models/user_model/user_auth_model.dart';
+import 'package:quant_bot_flutter/providers/auth_provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -39,35 +41,44 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             // 이메일 주소 입력 필드
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('E-mail', style: TextStyle(fontSize: 14)),
+                const Text('E-mail', style: TextStyle(fontSize: 14)),
                 TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'EX) quant-bot@mail.dot',
                   ),
+                  controller: ref.watch(authFormProvider.notifier).emailController,
                 ),
               ],
             ),
             const SizedBox(height: 20),
             // 비밀번호 필드
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('PassWord', style: TextStyle(fontSize: 14)),
+                const Text('PassWord', style: TextStyle(fontSize: 14)),
                 TextField(
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     suffixIcon: Icon(Icons.visibility_off),
                   ),
+                  controller: ref.watch(authFormProvider.notifier).passwordController,
                 ),
               ],
             ),
             const SizedBox(height: 30),
             // 로그인 버튼
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final signIn = await ref.read(authProvider(
+                  ref.watch(
+                    authFormProvider,
+                  ),
+                ).future);
+                context.go('/');
+              },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.grey[300],
                 backgroundColor: Colors.black,
