@@ -26095,7 +26095,7 @@ _.e=_.c=!0
 _.f=d},
 a1t:function a1t(a){this.a=a},
 a1u:function a1u(a){this.a=a},
-aLA(){var s=null,r=new A.pt(),q=A.azN("http://localhost:8080/api/v1",s,s,s,s,s,s,s,s,s,!1,s,s,s,s,s,B.fM,s,s),p=new A.KW($,new A.Ml(A.b([B.Ak],t.i6)),$,new A.a7w(51200),!1)
+aLA(){var s=null,r=new A.pt(),q=A.azN("http://quantwo-bot.iptime.org/api/v1",s,s,s,s,s,s,s,s,s,!1,s,s,s,s,s,B.fM,s,s),p=new A.KW($,new A.Ml(A.b([B.Ak],t.i6)),$,new A.a7w(51200),!1)
 p.yn$=q
 p.SE$=new A.a22(A.aI(t.lZ))
 r.d=p
