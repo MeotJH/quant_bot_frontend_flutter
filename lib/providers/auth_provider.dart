@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quant_bot_flutter/constants/api_constants.dart';
@@ -51,8 +48,6 @@ final authStorageProvider = AsyncNotifierProvider.autoDispose<AuthStorageNotifie
 
 class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
   late SharedPreferences _prefs;
-  final key = encrypt.Key.fromUtf8('aqwscdfvgrthfrdvnsjeskwiejdycher');
-  final iv = "OO8HG5DCQ379j/hP2XNEAQ==";
   final String tokenKey = 'authorization'; // 토큰 키값
 
   @override
@@ -62,46 +57,20 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
     return getToken();
   }
 
-  // AES 암호화 함수
-  String _encrypt(String value) {
-    final encrypter = Encrypter(AES(key));
-    final encrypted = encrypter.encrypt(value, iv: IV.fromBase64(iv));
-
-    return encrypted.base64;
-  }
-
-  // AES 복호화 함수
-  String _decrypt(String encryptedValue) {
-    try {
-      final encrypter = Encrypter(AES(key));
-      //final encryptObj = Encrypted.fromBase64(encrypted);
-      final encryptedObj = Encrypted.fromBase64(encryptedValue);
-
-      final decrypted = encrypter.decrypt(encryptedObj, iv: IV.fromBase64(iv));
-
-      return decrypted;
-    } catch (e) {
-      throw Exception("Failed to decrypt data: $e");
-    }
-  }
-
   Future<void> saveToken(String token) async {
     await _ensurePrefsInitialized();
-    final encryptedToken = _encrypt(token); // 토큰을 암호화하여 저장
-    await _prefs.setString(tokenKey, encryptedToken);
+    await _prefs.setString(tokenKey, token);
     state = AsyncValue.data(token);
   }
 
   Future<String?> _loadToken() async {
     await _ensurePrefsInitialized();
-    final encryptedToken = _prefs.getString(tokenKey);
+    final token = _prefs.getString(tokenKey);
 
-    if (encryptedToken == null) return null;
-
+    // 서버에서 복호화 로직 추가
     try {
-      final decryptedToken = _decrypt(encryptedToken); // 복호화된 값을 반환
-      state = AsyncValue.data(decryptedToken);
-      return decryptedToken;
+      state = AsyncValue.data(token);
+      return token;
     } catch (e) {
       print(e); // 디버깅을 위해 에러 로그를 출력
       state = const AsyncValue.error("Failed to decrypt token", StackTrace.empty);
