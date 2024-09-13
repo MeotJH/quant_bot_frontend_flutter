@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quant_bot_flutter/pages/stocks_page/stocks_page.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: "assets/.env");
   setPathUrlStrategy();
+  print('dot env file enviroment : ${dotenv.env['ENVIROMENT']}');
   runApp(const ProviderScope(child: QuantBot()));
 }
 

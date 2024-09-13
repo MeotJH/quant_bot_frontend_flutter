@@ -1,13 +1,10 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:riverpod/riverpod.dart';
 
 class DioNotifier extends Notifier<Dio> {
-  String local = 'http://localhost:8080/api/v1'; //'http://quantwo-bot.iptime.org/api/v1';
+  String local = 'http://quantwo-bot.iptime.org/api/v1';
   late Dio _dio;
   DioNotifier() {
     _dio = Dio(
@@ -22,7 +19,7 @@ class DioNotifier extends Notifier<Dio> {
     _dio.interceptors.add(InterceptorsWrapper(
       onError: (error, handler) async {
         if (error.response?.statusCode == 401) {
-          CustomToast.show(message: '비밀번호가 틀렸어여!!', isWarn: true);
+          CustomToast.show(message: 'Mail 또는 비밀번호가 올바르지 않습니다.', isWarn: true);
           return;
         }
 

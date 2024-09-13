@@ -40,7 +40,7 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: trendFollow.when(
                   data: (data) {
-                    print(data);
+
                     final recentOne = data.recentStockOne;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +184,7 @@ class _QuantPageState extends ConsumerState<QuantPage> {
   }
 
   String _calNetChange(QuantStockModel recentStockOne) {
-    print(recentStockOne);
+
     final double netChange = double.parse(recentStockOne.currentPrice) - double.parse(recentStockOne.previousClose);
 
     final strNetChange = netChange.toStringAsFixed(2);
