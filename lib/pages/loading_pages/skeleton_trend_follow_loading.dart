@@ -37,6 +37,9 @@ class SkeletonItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return skeletonMap[skeletonName] ?? const StockInfoSkeleton();
   }
+  //스프링 클라우드, AWS (SQS, ROUTE53, CoudFront, S3,) Cloud Batch
+  // 8인 정도
+  // 
 }
 
 class StockInfoSkeleton extends StatelessWidget {

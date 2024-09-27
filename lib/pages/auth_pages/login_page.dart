@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quant_bot_flutter/components/custom_password_field.dart';
+import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/models/user_model/user_auth_model.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
+import 'package:quant_bot_flutter/providers/router_provider.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(
+      authFormProvider,
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -48,8 +54,14 @@ class LoginScreen extends ConsumerWidget {
                 children: [
                   const Text('E-mail', style: TextStyle(fontSize: 14)),
                   TextField(
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'EX) quant-bot@mail.dot',
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: CustomColors.gray40),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: CustomColors.black),
+                      ),
                     ),
                     controller: ref.watch(authFormProvider.notifier).emailController,
                   ),
@@ -61,11 +73,7 @@ class LoginScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Password', style: TextStyle(fontSize: 14)),
-                  TextField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      suffixIcon: Icon(Icons.visibility_off),
-                    ),
+                  CustomPasswordTextField(
                     controller: ref.watch(authFormProvider.notifier).passwordController,
                   ),
                 ],
@@ -75,9 +83,7 @@ class LoginScreen extends ConsumerWidget {
               ElevatedButton(
                 onPressed: () async {
                   await ref.read(authProvider(
-                    ref.watch(
-                      authFormProvider,
-                    ),
+                    model,
                   ).future);
 
                   context.go('/');
@@ -112,7 +118,9 @@ class LoginScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push(RouteNotifier.signUpPath);
+                    },
                     child: const Text(
                       '이메일 가입',
                       style: TextStyle(color: Colors.grey),

@@ -8,14 +8,15 @@ class CustomButton extends StatelessWidget {
   final double padding;
   final Icon? icon;
 
-  const CustomButton(
-      {super.key,
-      required this.onPressed,
-      required this.textColor,
-      required this.backgroundColor,
-      required this.text,
-      this.padding = 12.0,
-      this.icon});
+  const CustomButton({
+    super.key,
+    required this.onPressed,
+    required this.textColor,
+    required this.backgroundColor,
+    required this.text,
+    this.padding = 12.0,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
