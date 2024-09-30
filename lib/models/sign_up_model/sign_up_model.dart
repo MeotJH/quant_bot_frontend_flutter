@@ -10,7 +10,7 @@ class SignUpModel with _$SignUpModel {
     explicitToJson: true,
   )
   factory SignUpModel({
-    @Default('') String name,
+    @Default('') String userName,
     @Default('') String email,
     @Default('') String password,
     @Default('') String mobile,

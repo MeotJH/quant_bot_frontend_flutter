@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/components/custom_password_field.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
-import 'package:quant_bot_flutter/models/user_model/user_auth_model.dart';
-import 'package:quant_bot_flutter/providers/auth_provider.dart';
+import 'package:quant_bot_flutter/providers/router_provider.dart';
 import 'package:quant_bot_flutter/providers/sign_up_provider.dart';
 import 'package:quant_bot_flutter/services/phone_formatter_service.dart';
 
@@ -26,12 +25,12 @@ class SignUpScreen extends ConsumerWidget {
         ),
       ),
       body: Center(
-        child: SizedBox(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           width: 600,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // 유저명 주소 입력 필드
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -123,10 +122,11 @@ class SignUpScreen extends ConsumerWidget {
         child: Center(
           child: ElevatedButton(
             onPressed: () async {
-              await ref.read(
-                signUpProvider(ref.watch(signUpFormProvider)).future,
-              );
-              context.go('/');
+              // await ref.read(
+              //   signUpProvider(ref.watch(signUpFormProvider)).future,
+              // );
+              if (!context.mounted) return;
+              context.go(RouteNotifier.signUpCompletePath);
             },
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.grey[300],

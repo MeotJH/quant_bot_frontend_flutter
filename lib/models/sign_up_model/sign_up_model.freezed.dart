@@ -20,7 +20,7 @@ SignUpModel _$SignUpModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SignUpModel {
-  String get name => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get mobile => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $SignUpModelCopyWith<$Res> {
           SignUpModel value, $Res Function(SignUpModel) then) =
       _$SignUpModelCopyWithImpl<$Res, SignUpModel>;
   @useResult
-  $Res call({String name, String email, String password, String mobile});
+  $Res call({String userName, String email, String password, String mobile});
 }
 
 /// @nodoc
@@ -53,15 +53,15 @@ class _$SignUpModelCopyWithImpl<$Res, $Val extends SignUpModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? userName = null,
     Object? email = null,
     Object? password = null,
     Object? mobile = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -87,7 +87,7 @@ abstract class _$$SignUpModelImplCopyWith<$Res>
       __$$SignUpModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String email, String password, String mobile});
+  $Res call({String userName, String email, String password, String mobile});
 }
 
 /// @nodoc
@@ -101,15 +101,15 @@ class __$$SignUpModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? userName = null,
     Object? email = null,
     Object? password = null,
     Object? mobile = null,
   }) {
     return _then(_$SignUpModelImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -132,14 +132,17 @@ class __$$SignUpModelImplCopyWithImpl<$Res>
 @JsonSerializable(includeIfNull: false, explicitToJson: true)
 class _$SignUpModelImpl implements _SignUpModel {
   _$SignUpModelImpl(
-      {this.name = '', this.email = '', this.password = '', this.mobile = ''});
+      {this.userName = '',
+      this.email = '',
+      this.password = '',
+      this.mobile = ''});
 
   factory _$SignUpModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$SignUpModelImplFromJson(json);
 
   @override
   @JsonKey()
-  final String name;
+  final String userName;
   @override
   @JsonKey()
   final String email;
@@ -152,7 +155,7 @@ class _$SignUpModelImpl implements _SignUpModel {
 
   @override
   String toString() {
-    return 'SignUpModel(name: $name, email: $email, password: $password, mobile: $mobile)';
+    return 'SignUpModel(userName: $userName, email: $email, password: $password, mobile: $mobile)';
   }
 
   @override
@@ -160,7 +163,8 @@ class _$SignUpModelImpl implements _SignUpModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignUpModelImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.userName, userName) ||
+                other.userName == userName) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
@@ -169,7 +173,8 @@ class _$SignUpModelImpl implements _SignUpModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, email, password, mobile);
+  int get hashCode =>
+      Object.hash(runtimeType, userName, email, password, mobile);
 
   @JsonKey(ignore: true)
   @override
@@ -187,7 +192,7 @@ class _$SignUpModelImpl implements _SignUpModel {
 
 abstract class _SignUpModel implements SignUpModel {
   factory _SignUpModel(
-      {final String name,
+      {final String userName,
       final String email,
       final String password,
       final String mobile}) = _$SignUpModelImpl;
@@ -196,7 +201,7 @@ abstract class _SignUpModel implements SignUpModel {
       _$SignUpModelImpl.fromJson;
 
   @override
-  String get name;
+  String get userName;
   @override
   String get email;
   @override

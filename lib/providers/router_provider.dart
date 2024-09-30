@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/pages/auth_pages/login_page.dart';
+import 'package:quant_bot_flutter/pages/auth_pages/sign_up_complete_screen.dart';
 import 'package:quant_bot_flutter/pages/auth_pages/sign_up_screen.dart';
 import 'package:quant_bot_flutter/pages/quant_page/quant_page.dart';
 import 'package:quant_bot_flutter/pages/stocks_page/stocks_page.dart';
@@ -35,8 +36,9 @@ class RouteNotifier extends Notifier<GoRouter> {
   static const String _stockListPath = '/';
   static const String _quantPath = '/quants/:quant/:ticker';
   static const String _profilePath = '/profile';
-  static const String _loginPath = '/login';
+  static const String loginPath = '/login';
   static const String signUpPath = '/sign-up';
+  static const String signUpCompletePath = '/sign-up-complete';
 
   Widget _buildWithToken(BuildContext context, NotifierProviderRef<GoRouter> ref) {
     return FutureBuilder<String?>(
@@ -78,12 +80,16 @@ class RouteNotifier extends Notifier<GoRouter> {
           },
         ),
         GoRoute(
-          path: _loginPath,
+          path: loginPath,
           builder: (context, state) => const LoginScreen(),
         ),
         GoRoute(
           path: signUpPath,
           builder: (context, state) => const SignUpScreen(),
+        ),
+        GoRoute(
+          path: signUpCompletePath,
+          builder: (context, state) => const SignUpCompleteScreen(),
         ),
       ];
 
@@ -145,7 +151,7 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
   bool isLoginPage() {
     final path = widget.state.fullPath;
     const String loginPath = '/login';
-    bool hideBottomNav = path == RouteNotifier._loginPath || path == RouteNotifier.signUpPath;
+    bool hideBottomNav = path == RouteNotifier.loginPath || path == RouteNotifier.signUpPath;
     return hideBottomNav;
   }
 }

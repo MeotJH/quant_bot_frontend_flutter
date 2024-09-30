@@ -23,7 +23,7 @@ class SignUpFormNotifier extends StateNotifier<SignUpModel> {
         passwordController = TextEditingController(),
         passwordDuplicateController = TextEditingController(),
         mobileController = TextEditingController(),
-        super(SignUpModel(email: '', password: '', name: '', mobile: '')) {
+        super(SignUpModel(email: '', password: '', userName: '', mobile: '')) {
     emailController.addListener(() {
       state = state.copyWith(email: emailController.text);
     });
@@ -31,7 +31,7 @@ class SignUpFormNotifier extends StateNotifier<SignUpModel> {
       state = state.copyWith(password: passwordController.text);
     });
     nameController.addListener(() {
-      state = state.copyWith(name: nameController.text);
+      state = state.copyWith(userName: nameController.text);
     });
     mobileController.addListener(() {
       state = state.copyWith(mobile: mobileController.text);

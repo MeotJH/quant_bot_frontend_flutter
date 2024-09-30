@@ -9,6 +9,10 @@ class SignUpService {
   Future<bool> signUp({required Dio dio}) async {
     validate();
     final response = await dio.post('/users/sign-up', data: model.toJson());
+    if (response.statusCode != 200) {
+      CustomToast.show(message: '회원가입에 실패했습니다.', isWarn: true);
+      return false;
+    }
     return true;
   }
 
@@ -16,7 +20,7 @@ class SignUpService {
     final fields = {
       '이메일': model.email,
       '비밀번호': model.password,
-      '이름': model.name,
+      '이름': model.userName,
       '전화번호': model.mobile,
     };
 

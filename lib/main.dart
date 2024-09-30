@@ -7,6 +7,7 @@ import 'package:url_strategy/url_strategy.dart';
 void main() async {
   await dotenv.load(fileName: "assets/.env");
   setPathUrlStrategy();
+  
   print('dot env file enviroment : ${dotenv.env['ENVIROMENT']}');
   runApp(const ProviderScope(child: QuantBot()));
 }
