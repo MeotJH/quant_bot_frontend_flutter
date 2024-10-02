@@ -7,12 +7,19 @@ import 'package:quant_bot_flutter/providers/router_provider.dart';
 import 'package:quant_bot_flutter/providers/sign_up_provider.dart';
 import 'package:quant_bot_flutter/services/phone_formatter_service.dart';
 
-class SignUpScreen extends ConsumerWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  @override
+  Widget build(BuildContext context) {
     final signupFormNotifier = ref.watch(signUpFormProvider.notifier);
+    final signupFormState = ref.watch(signUpFormProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -60,13 +67,14 @@ class SignUpScreen extends ConsumerWidget {
                   const Text('이메일 주소 *', style: TextStyle(fontSize: 12)),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: 'EX) quant-bot@mail.dot',
+                      hintText: 'EX) quant-bot@mail.dot ',
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: CustomColors.gray40),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: CustomColors.black),
                       ),
+                      errorText: signupFormState.isEmailValid ? null : '이메일 형식이 올바르지 않습니다.',
                     ),
                     controller: signupFormNotifier.emailController,
                   ),
@@ -77,8 +85,16 @@ class SignUpScreen extends ConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('비밀번호 *', style: TextStyle(fontSize: 12)),
-                  CustomPasswordTextField(controller: signupFormNotifier.passwordController),
+                  Text(
+                    '비밀번호 * ${signupFormState.isPasswordValid}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                  CustomPasswordTextField(
+                    controller: signupFormNotifier.passwordController,
+                    errorText: signupFormState.isPasswordValid ? null : '비밀번호가 일치하지 않습니다.',
+                  ),
                 ],
               ),
               const SizedBox(height: 30),
@@ -86,7 +102,11 @@ class SignUpScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('비밀번호 확인 *', style: TextStyle(fontSize: 12)),
-                  CustomPasswordTextField(controller: signupFormNotifier.passwordDuplicateController),
+                  CustomPasswordTextField(
+                    controller: signupFormNotifier.passwordDuplicateController,
+                    errorText:
+                        signupFormState.password, //signupFormState.isPasswordMatched ? null : '비밀번호가 일치하지 않습니다.',
+                  ),
                 ],
               ),
               const SizedBox(height: 30),
@@ -122,9 +142,9 @@ class SignUpScreen extends ConsumerWidget {
         child: Center(
           child: ElevatedButton(
             onPressed: () async {
-              // await ref.read(
-              //   signUpProvider(ref.watch(signUpFormProvider)).future,
-              // );
+              await ref.read(
+                signUpProvider(ref.watch(signUpFormProvider)).future,
+              );
               if (!context.mounted) return;
               context.go(RouteNotifier.signUpCompletePath);
             },

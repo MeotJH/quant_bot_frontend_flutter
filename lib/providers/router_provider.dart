@@ -50,7 +50,10 @@ class RouteNotifier extends Notifier<GoRouter> {
 
         if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
+            //여기
             GoRouter.of(context).go('/login');
+
+            ref.read(bottomNavIndexProvider.notifier).state = 0;
           });
           return const SizedBox.shrink();
         }
@@ -107,30 +110,28 @@ class ScaffoldWithNavBar extends ConsumerStatefulWidget {
   ConsumerState<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
 }
 
-class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
-  int _selectedIndex = 0;
+final bottomNavIndexProvider = StateProvider<int>((ref) => 0);
 
+class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = ref.watch(bottomNavIndexProvider);
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: isLoginPage()
           ? null // 로그인 페이지 일떄는 BottomNavigationBar를 숨김
           : BottomNavigationBar(
-              currentIndex: _selectedIndex,
+              currentIndex: selectedIndex,
               selectedItemColor: CustomColors.black,
               unselectedItemColor: CustomColors.gray40,
               onTap: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-
+                ref.read(bottomNavIndexProvider.notifier).state = index;
                 switch (index) {
                   case 0:
-                    context.go('/');
+                    context.push('/');
                     break;
                   case 1:
-                    context.go('/profile');
+                    context.push('/profile');
                     break;
                 }
               },
@@ -150,8 +151,8 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
 
   bool isLoginPage() {
     final path = widget.state.fullPath;
-    const String loginPath = '/login';
-    bool hideBottomNav = path == RouteNotifier.loginPath || path == RouteNotifier.signUpPath;
+    bool hideBottomNav =
+        path == RouteNotifier.loginPath || path == RouteNotifier.signUpPath || path == RouteNotifier.signUpCompletePath;
     return hideBottomNav;
   }
 }

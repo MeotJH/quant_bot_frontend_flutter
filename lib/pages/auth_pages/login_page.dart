@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/components/custom_password_field.dart';
+import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
-import 'package:quant_bot_flutter/models/user_model/user_auth_model.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 
@@ -75,6 +75,7 @@ class LoginScreen extends ConsumerWidget {
                   const Text('Password', style: TextStyle(fontSize: 14)),
                   CustomPasswordTextField(
                     controller: ref.watch(authFormProvider.notifier).passwordController,
+                    errorText: 'a',
                   ),
                 ],
               ),
@@ -85,7 +86,7 @@ class LoginScreen extends ConsumerWidget {
                   await ref.read(authProvider(
                     model,
                   ).future);
-
+                  if (!context.mounted) return;
                   context.go('/');
                 },
                 style: ElevatedButton.styleFrom(
@@ -128,7 +129,9 @@ class LoginScreen extends ConsumerWidget {
                   ),
                   const Text('|', style: TextStyle(color: Colors.grey)),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      CustomToast.show(message: '해당 기능은 준비중입니다.', isWarn: true);
+                    },
                     child: const Text(
                       '이메일 찾기',
                       style: TextStyle(color: Colors.grey),
@@ -136,7 +139,9 @@ class LoginScreen extends ConsumerWidget {
                   ),
                   const Text('|', style: TextStyle(color: Colors.grey)),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      CustomToast.show(message: '해당 기능은 준비중입니다.', isWarn: true);
+                    },
                     child: const Text(
                       '비밀번호 찾기',
                       style: TextStyle(color: Colors.grey),

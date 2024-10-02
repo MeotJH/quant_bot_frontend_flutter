@@ -19,7 +19,7 @@ class DioNotifier extends Notifier<Dio> {
     _dio.interceptors.add(InterceptorsWrapper(
       onError: (error, handler) async {
         if (error.response?.statusCode == 401) {
-          CustomToast.show(message: 'Mail 또는 비밀번호가 올바르지 않습니다.', isWarn: true);
+          CustomToast.show(message: 'mail 또는 비밀번호가 올바르지 않습니다.', isWarn: true);
           return;
         }
 

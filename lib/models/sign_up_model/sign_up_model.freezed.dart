@@ -24,6 +24,9 @@ mixin _$SignUpModel {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get mobile => throw _privateConstructorUsedError;
+  bool get isEmailValid => throw _privateConstructorUsedError;
+  bool get isPasswordValid => throw _privateConstructorUsedError;
+  bool get isPasswordMatched => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +40,14 @@ abstract class $SignUpModelCopyWith<$Res> {
           SignUpModel value, $Res Function(SignUpModel) then) =
       _$SignUpModelCopyWithImpl<$Res, SignUpModel>;
   @useResult
-  $Res call({String userName, String email, String password, String mobile});
+  $Res call(
+      {String userName,
+      String email,
+      String password,
+      String mobile,
+      bool isEmailValid,
+      bool isPasswordValid,
+      bool isPasswordMatched});
 }
 
 /// @nodoc
@@ -57,6 +67,9 @@ class _$SignUpModelCopyWithImpl<$Res, $Val extends SignUpModel>
     Object? email = null,
     Object? password = null,
     Object? mobile = null,
+    Object? isEmailValid = null,
+    Object? isPasswordValid = null,
+    Object? isPasswordMatched = null,
   }) {
     return _then(_value.copyWith(
       userName: null == userName
@@ -75,6 +88,18 @@ class _$SignUpModelCopyWithImpl<$Res, $Val extends SignUpModel>
           ? _value.mobile
           : mobile // ignore: cast_nullable_to_non_nullable
               as String,
+      isEmailValid: null == isEmailValid
+          ? _value.isEmailValid
+          : isEmailValid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPasswordValid: null == isPasswordValid
+          ? _value.isPasswordValid
+          : isPasswordValid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPasswordMatched: null == isPasswordMatched
+          ? _value.isPasswordMatched
+          : isPasswordMatched // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -87,7 +112,14 @@ abstract class _$$SignUpModelImplCopyWith<$Res>
       __$$SignUpModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userName, String email, String password, String mobile});
+  $Res call(
+      {String userName,
+      String email,
+      String password,
+      String mobile,
+      bool isEmailValid,
+      bool isPasswordValid,
+      bool isPasswordMatched});
 }
 
 /// @nodoc
@@ -105,6 +137,9 @@ class __$$SignUpModelImplCopyWithImpl<$Res>
     Object? email = null,
     Object? password = null,
     Object? mobile = null,
+    Object? isEmailValid = null,
+    Object? isPasswordValid = null,
+    Object? isPasswordMatched = null,
   }) {
     return _then(_$SignUpModelImpl(
       userName: null == userName
@@ -123,6 +158,18 @@ class __$$SignUpModelImplCopyWithImpl<$Res>
           ? _value.mobile
           : mobile // ignore: cast_nullable_to_non_nullable
               as String,
+      isEmailValid: null == isEmailValid
+          ? _value.isEmailValid
+          : isEmailValid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPasswordValid: null == isPasswordValid
+          ? _value.isPasswordValid
+          : isPasswordValid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPasswordMatched: null == isPasswordMatched
+          ? _value.isPasswordMatched
+          : isPasswordMatched // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -135,7 +182,10 @@ class _$SignUpModelImpl implements _SignUpModel {
       {this.userName = '',
       this.email = '',
       this.password = '',
-      this.mobile = ''});
+      this.mobile = '',
+      this.isEmailValid = true,
+      this.isPasswordValid = true,
+      this.isPasswordMatched = true});
 
   factory _$SignUpModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$SignUpModelImplFromJson(json);
@@ -152,10 +202,19 @@ class _$SignUpModelImpl implements _SignUpModel {
   @override
   @JsonKey()
   final String mobile;
+  @override
+  @JsonKey()
+  final bool isEmailValid;
+  @override
+  @JsonKey()
+  final bool isPasswordValid;
+  @override
+  @JsonKey()
+  final bool isPasswordMatched;
 
   @override
   String toString() {
-    return 'SignUpModel(userName: $userName, email: $email, password: $password, mobile: $mobile)';
+    return 'SignUpModel(userName: $userName, email: $email, password: $password, mobile: $mobile, isEmailValid: $isEmailValid, isPasswordValid: $isPasswordValid, isPasswordMatched: $isPasswordMatched)';
   }
 
   @override
@@ -168,13 +227,19 @@ class _$SignUpModelImpl implements _SignUpModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.mobile, mobile) || other.mobile == mobile));
+            (identical(other.mobile, mobile) || other.mobile == mobile) &&
+            (identical(other.isEmailValid, isEmailValid) ||
+                other.isEmailValid == isEmailValid) &&
+            (identical(other.isPasswordValid, isPasswordValid) ||
+                other.isPasswordValid == isPasswordValid) &&
+            (identical(other.isPasswordMatched, isPasswordMatched) ||
+                other.isPasswordMatched == isPasswordMatched));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userName, email, password, mobile);
+  int get hashCode => Object.hash(runtimeType, userName, email, password,
+      mobile, isEmailValid, isPasswordValid, isPasswordMatched);
 
   @JsonKey(ignore: true)
   @override
@@ -195,7 +260,10 @@ abstract class _SignUpModel implements SignUpModel {
       {final String userName,
       final String email,
       final String password,
-      final String mobile}) = _$SignUpModelImpl;
+      final String mobile,
+      final bool isEmailValid,
+      final bool isPasswordValid,
+      final bool isPasswordMatched}) = _$SignUpModelImpl;
 
   factory _SignUpModel.fromJson(Map<String, dynamic> json) =
       _$SignUpModelImpl.fromJson;
@@ -208,6 +276,12 @@ abstract class _SignUpModel implements SignUpModel {
   String get password;
   @override
   String get mobile;
+  @override
+  bool get isEmailValid;
+  @override
+  bool get isPasswordValid;
+  @override
+  bool get isPasswordMatched;
   @override
   @JsonKey(ignore: true)
   _$$SignUpModelImplCopyWith<_$SignUpModelImpl> get copyWith =>

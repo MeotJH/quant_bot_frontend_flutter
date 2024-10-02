@@ -12,6 +12,9 @@ _$SignUpModelImpl _$$SignUpModelImplFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String? ?? '',
       password: json['password'] as String? ?? '',
       mobile: json['mobile'] as String? ?? '',
+      isEmailValid: json['isEmailValid'] as bool? ?? true,
+      isPasswordValid: json['isPasswordValid'] as bool? ?? true,
+      isPasswordMatched: json['isPasswordMatched'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$SignUpModelImplToJson(_$SignUpModelImpl instance) =>
@@ -20,4 +23,7 @@ Map<String, dynamic> _$$SignUpModelImplToJson(_$SignUpModelImpl instance) =>
       'email': instance.email,
       'password': instance.password,
       'mobile': instance.mobile,
+      'isEmailValid': instance.isEmailValid,
+      'isPasswordValid': instance.isPasswordValid,
+      'isPasswordMatched': instance.isPasswordMatched,
     };

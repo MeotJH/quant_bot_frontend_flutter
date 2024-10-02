@@ -17,18 +17,48 @@ class SignUpFormNotifier extends StateNotifier<SignUpModel> {
   final TextEditingController passwordDuplicateController;
   final TextEditingController mobileController;
 
+  bool isEmailValid = true;
+  bool isPasswordValid = true;
+  bool isPasswordMatched = true;
+
   SignUpFormNotifier()
       : nameController = TextEditingController(),
         emailController = TextEditingController(),
         passwordController = TextEditingController(),
         passwordDuplicateController = TextEditingController(),
         mobileController = TextEditingController(),
-        super(SignUpModel(email: '', password: '', userName: '', mobile: '')) {
+        isEmailValid = true,
+        isPasswordValid = true,
+        isPasswordMatched = true,
+        super(
+          SignUpModel(
+            email: '',
+            password: '',
+            userName: '',
+            mobile: '',
+            isEmailValid: true,
+            isPasswordValid: true,
+            isPasswordMatched: true,
+          ),
+        ) {
     emailController.addListener(() {
-      state = state.copyWith(email: emailController.text);
+      state = state.copyWith(
+        email: emailController.text,
+        isEmailValid: SignUpService.validateEmail(
+          emailController.text,
+        ),
+      );
+      print('state: $state');
     });
     passwordController.addListener(() {
-      state = state.copyWith(password: passwordController.text);
+      state = state.copyWith(
+        password: passwordController.text,
+        isPasswordValid: SignUpService.validatePassword(passwordController.text),
+        isPasswordMatched: SignUpService.validateMatchPassword(
+          password: passwordController.text,
+          passwordDuplicate: passwordDuplicateController.text,
+        ),
+      );
     });
     nameController.addListener(() {
       state = state.copyWith(userName: nameController.text);

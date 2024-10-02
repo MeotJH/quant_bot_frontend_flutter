@@ -2,18 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 
 class CustomPasswordTextField extends StatefulWidget {
-  const CustomPasswordTextField({super.key, required this.controller});
+  const CustomPasswordTextField({
+    super.key,
+    required this.controller,
+    this.errorText,
+  });
+
   final TextEditingController controller;
+  final String? errorText;
+
   @override
-  State<CustomPasswordTextField> createState() => _PasswordTextFieldState();
+  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
 }
 
-class _PasswordTextFieldState extends State<CustomPasswordTextField> {
+class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
   bool _obscureText = true;
+  String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_validatePassword);
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_validatePassword);
+    super.dispose();
+  }
+
+  void _validatePassword() {
+    setState(() {
+      print('this is widget tex ${widget.errorText}');
+      _errorText = widget.errorText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController passwordController = widget.controller;
     return TextField(
       obscureText: _obscureText,
       decoration: InputDecoration(
@@ -33,8 +59,9 @@ class _PasswordTextFieldState extends State<CustomPasswordTextField> {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: CustomColors.black),
         ),
+        errorText: _errorText,
       ),
-      controller: passwordController,
+      controller: widget.controller,
     );
   }
 }
