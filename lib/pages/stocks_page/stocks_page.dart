@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/components/custom_dialog_dropdown.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/skeleton_list_loading.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
-import 'package:quant_bot_flutter/core/utils.dart';
 import 'package:quant_bot_flutter/pages/stocks_page/stocks_page_search_bar.dart';
 import 'package:quant_bot_flutter/providers/stocks_provider.dart';
 
@@ -16,8 +15,6 @@ class StockListPage extends ConsumerStatefulWidget {
 }
 
 class _StockListPageState extends ConsumerState<StockListPage> {
-  final String _ticker = '';
-
   @override
   Widget build(BuildContext context) {
     final stocks = ref.watch(stocksProvider);
