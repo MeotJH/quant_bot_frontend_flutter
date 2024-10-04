@@ -44,10 +44,8 @@ class SignUpService {
   // 비밀번호 유효성 검사
   static bool validatePassword(String password) {
     // 8자리 이상 문자, 숫자, 특수문자를 포함해야 함
-    print('in service $password');
     if (password.isEmpty) return true;
     final passwordReg = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
-    print('passwordReg.hasMatch(password) ${passwordReg.hasMatch(password)}');
     return passwordReg.hasMatch(password);
   }
 

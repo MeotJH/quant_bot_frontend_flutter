@@ -22,7 +22,19 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
   @override
   void initState() {
     super.initState();
+    _errorText = widget.errorText; // 초기화
     widget.controller.addListener(_validatePassword);
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomPasswordTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // 부모로부터 전달된 errorText가 변경되면, 상태를 업데이트
+    if (widget.errorText != oldWidget.errorText) {
+      setState(() {
+        _errorText = widget.errorText;
+      });
+    }
   }
 
   @override
@@ -32,8 +44,8 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
   }
 
   void _validatePassword() {
+    // 비밀번호가 입력될 때마다 유효성을 확인하고 상태 업데이트
     setState(() {
-      print('this is widget tex ${widget.errorText}');
       _errorText = widget.errorText;
     });
   }

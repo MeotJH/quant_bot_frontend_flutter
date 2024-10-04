@@ -75,7 +75,6 @@ class LoginScreen extends ConsumerWidget {
                   const Text('Password', style: TextStyle(fontSize: 14)),
                   CustomPasswordTextField(
                     controller: ref.watch(authFormProvider.notifier).passwordController,
-                    errorText: 'a',
                   ),
                 ],
               ),

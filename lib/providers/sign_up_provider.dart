@@ -54,6 +54,10 @@ class SignUpFormNotifier extends StateNotifier<SignUpModel> {
       state = state.copyWith(
         password: passwordController.text,
         isPasswordValid: SignUpService.validatePassword(passwordController.text),
+      );
+    });
+    passwordDuplicateController.addListener(() {
+      state = state.copyWith(
         isPasswordMatched: SignUpService.validateMatchPassword(
           password: passwordController.text,
           passwordDuplicate: passwordDuplicateController.text,

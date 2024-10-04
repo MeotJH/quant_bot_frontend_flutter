@@ -93,7 +93,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   CustomPasswordTextField(
                     controller: signupFormNotifier.passwordController,
-                    errorText: signupFormState.isPasswordValid ? null : '비밀번호가 일치하지 않습니다.',
+                    errorText: signupFormState.isPasswordValid ? null : '비밀번호는 영문,특수문자,숫자가 포함된 8자리 이상이어야 합니다.',
                   ),
                 ],
               ),
@@ -104,8 +104,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   const Text('비밀번호 확인 *', style: TextStyle(fontSize: 12)),
                   CustomPasswordTextField(
                     controller: signupFormNotifier.passwordDuplicateController,
-                    errorText:
-                        signupFormState.password, //signupFormState.isPasswordMatched ? null : '비밀번호가 일치하지 않습니다.',
+                    errorText: signupFormState.isPasswordMatched ? null : '비밀번호가 일치하지 않습니다.',
                   ),
                 ],
               ),
