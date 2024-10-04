@@ -1,16 +1,22 @@
-# quant_bot_flutter
+# 주식 퀀트 앱
 
-A new Flutter project.
+url - http://quantwo-bot.iptime.org/
+이 프로젝트는 사용자가 주식 목록을 탐색하고, 회원가입을 하며, 개별 주식에 대한 퀀트 지표를 확인할 수 있는 주식 분석 플랫폼입니다.
 
-## Getting Started
+## 주요 기능
 
-This project is a starting point for a Flutter application.
+### 1. 주식 목록 기능
 
-A few resources to get you started if this is your first Flutter project:
+- 사용자가 이용 가능한 주식 목록을 조회할 수 있습니다.
+- 주식 이름, 섹터, 성과 등 다양한 기준으로 주식을 검색하고 필터링할 수 있습니다.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 2. 회원가입 기능
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- 신규 사용자는 회원가입을 통해 계정을 생성할 수 있습니다.
+- 사용자 인증 및 안전한 로그인 기능을 제공합니다.
+- 비밀번호 복구 및 프로필 관리 기능을 지원합니다.
+
+### 3. 개별 주식 퀀트별 조회 기능
+
+- 개별 주식에 대한 상세한 퀀트 분석을 확인할 수 있습니다.
+- P/E 비율, ROE 등 주요 재무 지표를 포함한 데이터를 제공합니다.
