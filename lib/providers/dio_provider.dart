@@ -4,7 +4,7 @@ import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:riverpod/riverpod.dart';
 
 class DioNotifier extends Notifier<Dio> {
-  String local = 'http://127.0.0.1:8080/api/v1'; //'http://quantwo-bot.iptime.org/api/v1';
+  String local = 'http://quantwo-bot.iptime.org/api/v1';
   late Dio _dio;
   DioNotifier() {
     _dio = Dio(
