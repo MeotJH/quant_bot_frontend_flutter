@@ -26217,7 +26217,7 @@ _.e=_.c=!0
 _.f=d},
 aaj:function aaj(a){this.a=a},
 aak:function aak(a){this.a=a},
-aYp(){var s=null,r=new A.tA(),q=A.aL3("http://127.0.0.1:8080/api/v1",s,s,s,s,s,s,s,s,s,!1,s,s,s,s,s,B.hn,s,s),p=new A.Sg($,new A.TV(A.a([B.Cv],t.i6)),$,new A.agG(51200),!1)
+aYp(){var s=null,r=new A.tA(),q=A.aL3("http://quantwo-bot.iptime.org/api/v1",s,s,s,s,s,s,s,s,s,!1,s,s,s,s,s,B.hn,s,s),p=new A.Sg($,new A.TV(A.a([B.Cv],t.i6)),$,new A.agG(51200),!1)
 p.CB$=q
 p.a_i$=new A.ab2(A.v(t.o))
 r.d=p
