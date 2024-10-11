@@ -40,7 +40,8 @@ class RouteNotifier extends Notifier<GoRouter> {
   static const String signUpPath = '/sign-up';
   static const String signUpCompletePath = '/sign-up-complete';
 
-  Widget _buildWithToken(BuildContext context, NotifierProviderRef<GoRouter> ref) {
+  Widget _buildWithToken(
+      BuildContext context, NotifierProviderRef<GoRouter> ref) {
     return FutureBuilder<String?>(
       future: ref.read(authStorageProvider.future),
       builder: (context, snapshot) {
@@ -104,7 +105,8 @@ class ScaffoldWithNavBar extends ConsumerStatefulWidget {
   final Widget child;
   final GoRouterState state;
 
-  const ScaffoldWithNavBar({super.key, required this.child, required this.state});
+  const ScaffoldWithNavBar(
+      {super.key, required this.child, required this.state});
 
   @override
   ConsumerState<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
@@ -151,10 +153,12 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
 
   bool isLoginPage() {
     final path = widget.state.fullPath;
-    bool hideBottomNav =
-        path == RouteNotifier.loginPath || path == RouteNotifier.signUpPath || path == RouteNotifier.signUpCompletePath;
+    bool hideBottomNav = path == RouteNotifier.loginPath ||
+        path == RouteNotifier.signUpPath ||
+        path == RouteNotifier.signUpCompletePath;
     return hideBottomNav;
   }
 }
 
-final routeProvider = NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);
+final routeProvider =
+    NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);

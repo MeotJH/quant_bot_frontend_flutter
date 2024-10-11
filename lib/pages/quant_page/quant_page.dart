@@ -4,8 +4,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quant_bot_flutter/components/custom_button.dart';
 import 'package:quant_bot_flutter/components/custom_dialog.dart';
 import 'package:quant_bot_flutter/components/line_chart.dart';
+import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/models/quant_model/quant_stock_model.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/skeleton_trend_follow_loading.dart';
@@ -40,7 +42,6 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: trendFollow.when(
                   data: (data) {
-
                     final recentOne = data.recentStockOne;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +123,8 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                             await showQuantBotDialog(
                                 context: context,
                                 title: '추세추종 투자법 정보',
-                                content: '추세 추종 투자법은 시장의 상승 또는 하락 추세를 따라 매수하거나 매도하는 전략입니다.');
+                                content:
+                                    '추세 추종 투자법은 시장의 상승 또는 하락 추세를 따라 매수하거나 매도하는 전략입니다.');
                           },
                           child: Icon(
                             CupertinoIcons.question_circle_fill,
@@ -132,6 +134,12 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                         ),
                       ),
                     ],
+                  ),
+                  CustomButton(
+                    text: '퀀트 알림 설정',
+                    onPressed: () => _handleQuantAlertSetting(widget.ticker),
+                    textColor: Colors.white,
+                    backgroundColor: CustomColors.clearBlue120,
                   ),
                 ],
               ),
@@ -147,7 +155,8 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                   return Text('Error: $error');
                 },
                 loading: () => const SkeletonTrendFollowLoading(
-                  skeletonName: SkeletonTrendFollowLoading.trendFollowCardSkeleton,
+                  skeletonName:
+                      SkeletonTrendFollowLoading.trendFollowCardSkeleton,
                 ),
               ),
             ),
@@ -173,7 +182,8 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                   return Text('Error: $error');
                 },
                 loading: () => const SkeletonTrendFollowLoading(
-                  skeletonName: SkeletonTrendFollowLoading.trendFollowCardSkeleton,
+                  skeletonName:
+                      SkeletonTrendFollowLoading.trendFollowCardSkeleton,
                 ),
               ),
             ),
@@ -183,17 +193,39 @@ class _QuantPageState extends ConsumerState<QuantPage> {
     );
   }
 
-  String _calNetChange(QuantStockModel recentStockOne) {
+  Future<void> _handleQuantAlertSetting(String ticker) async {
+    final notifier = ref.read(trendFollowProvider(ticker).notifier);
+    try {
+      await notifier.addStockToProfile(ticker, 'TF', true);
+      _showSuccessToast('퀀트 알림이 성공적으로 설정되었습니다.');
+    } catch (e) {
+      _showErrorToast('퀀트 알림 설정 중 오류가 발생했습니다.');
+      // 로깅 또는 에러 리포팅 로직을 여기에 추가할 수 있습니다.
+    }
+  }
 
-    final double netChange = double.parse(recentStockOne.currentPrice) - double.parse(recentStockOne.previousClose);
+  void _showSuccessToast(String message) {
+    CustomToast.show(message: message);
+  }
+
+  void _showErrorToast(String message) {
+    CustomToast.show(message: message, isWarn: true);
+  }
+
+  String _calNetChange(QuantStockModel recentStockOne) {
+    final double netChange = double.parse(recentStockOne.currentPrice) -
+        double.parse(recentStockOne.previousClose);
 
     final strNetChange = netChange.toStringAsFixed(2);
-    final strNetChangePercent = (netChange / double.parse(recentStockOne.previousClose) * 100).toStringAsFixed(2);
+    final strNetChangePercent =
+        (netChange / double.parse(recentStockOne.previousClose) * 100)
+            .toStringAsFixed(2);
     return '\$$strNetChange ($strNetChangePercent%)';
   }
 
   Color _getNetChangeColor(QuantStockModel recentStockOne) {
-    final double netChange = double.parse(recentStockOne.currentPrice) - double.parse(recentStockOne.previousClose);
+    final double netChange = double.parse(recentStockOne.currentPrice) -
+        double.parse(recentStockOne.previousClose);
     return netChange > 0 ? CustomColors.error : CustomColors.clearBlue100;
   }
 }

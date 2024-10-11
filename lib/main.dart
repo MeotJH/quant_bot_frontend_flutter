@@ -7,7 +7,7 @@ import 'package:url_strategy/url_strategy.dart';
 void main() async {
   await dotenv.load(fileName: "assets/.env");
   setPathUrlStrategy();
-  
+
   print('dot env file enviroment : ${dotenv.env['ENVIROMENT']}');
   runApp(const ProviderScope(child: QuantBot()));
 }
@@ -27,7 +27,8 @@ class _QuantBotState extends ConsumerState<QuantBot> {
       title: 'Quant Bot',
       theme: ThemeData(
         fontFamily: 'Pretendard',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white).copyWith(background: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
+            .copyWith(background: Colors.white),
         dialogBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
