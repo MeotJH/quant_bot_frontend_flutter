@@ -4,7 +4,7 @@ const wasteImageDir = 'assets/images/waste_images';
 
 enum QuantType {
   TREND_FOLLOW(
-    code: 'TREND_FOLLOW',
+    code: 'TF',
     name: '추세추종법',
   ),
 

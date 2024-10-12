@@ -37,6 +37,10 @@ class DioNotifier extends Notifier<Dio> {
       headers: {'Authorization': 'Bearer $token'},
     );
   }
+
+  void removeAuth() {
+    _dio.options = _dio.options.copyWith(headers: {});
+  }
 }
 
 final dioProvider = NotifierProvider<DioNotifier, Dio>(DioNotifier.new);
