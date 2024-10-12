@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quant_bot_flutter/constants/api_constants.dart';
 import 'package:quant_bot_flutter/models/user_model/user_auth_model.dart';
 import 'package:quant_bot_flutter/models/user_model/user_auth_response_model.dart';
+import 'package:quant_bot_flutter/models/user_model/user_model.dart';
 import 'package:quant_bot_flutter/providers/dio_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,11 +45,15 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
  **/
 /// SecuredStorage를 사용하지 않음 HTTPS 때문에 후에 AWS로 이주하면 사용할 예정
 
-final authStorageProvider = AsyncNotifierProvider.autoDispose<AuthStorageNotifier, String?>(AuthStorageNotifier.new);
+//로그인 후 auth 토큰 관리하는 상태관리
+final authStorageProvider =
+    AsyncNotifierProvider.autoDispose<AuthStorageNotifier, String?>(
+        AuthStorageNotifier.new);
 
 class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
   late SharedPreferences _prefs;
   final String tokenKey = 'authorization'; // 토큰 키값
+  UserModel? _user;
 
   @override
   Future<String?> build() async {
@@ -73,7 +78,8 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
       return token;
     } catch (e) {
       print(e); // 디버깅을 위해 에러 로그를 출력
-      state = const AsyncValue.error("Failed to decrypt token", StackTrace.empty);
+      state =
+          const AsyncValue.error("Failed to decrypt token", StackTrace.empty);
       return null;
     }
   }
@@ -96,9 +102,26 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
       _prefs = await SharedPreferences.getInstance();
     }
   }
+
+  Future<UserModel> findUserByAuth() async {
+    if (_user != null) return _user!;
+
+    final dio = ref.read(dioProvider);
+    final response = await dio.get(ApiUrl.findUserByAuth);
+
+    if (response.statusCode != ApiStatus.success) {
+      throw Exception();
+    }
+
+    final userResponseJson = response.data as Map<String, dynamic>;
+    _user = UserModel.fromJson(userResponseJson);
+    return _user!;
+  }
 }
 
-final authProvider = AsyncNotifierProvider.autoDispose.family<AuthProvider, void, UserAuthModel>(AuthProvider.new);
+// 인증과 관련된 서버와 통신하는 상태관리
+final authProvider = AsyncNotifierProvider.autoDispose
+    .family<AuthProvider, void, UserAuthModel>(AuthProvider.new);
 
 class AuthProvider extends AutoDisposeFamilyAsyncNotifier<void, UserAuthModel> {
   @override
@@ -117,13 +140,24 @@ class AuthProvider extends AutoDisposeFamilyAsyncNotifier<void, UserAuthModel> {
     }
 
     final userResponseJson = response.data as Map<String, dynamic>;
-    final userAuthResponseModel = UserAuthResponseModel.fromJson(userResponseJson);
-    ref.read(dioProvider.notifier).addAuth(token: userAuthResponseModel.authorization);
+    final userAuthResponseModel =
+        UserAuthResponseModel.fromJson(userResponseJson);
+    ref
+        .read(dioProvider.notifier)
+        .addAuth(token: userAuthResponseModel.authorization);
 
-    ref.read(authStorageProvider.notifier).saveToken(userAuthResponseModel.authorization);
+    ref
+        .read(authStorageProvider.notifier)
+        .saveToken(userAuthResponseModel.authorization);
+  }
+
+  Future<void> signOut() async {
+    ref.read(dioProvider.notifier).removeAuth();
+    await ref.read(authStorageProvider.notifier).deleteToken();
   }
 }
 
+//회원가입을 위한 상태관리
 final authFormProvider = StateNotifierProvider<AuthFormNotifier, UserAuthModel>(
   (ref) => AuthFormNotifier(),
 );
