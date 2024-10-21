@@ -3,6 +3,7 @@ import 'package:quant_bot_flutter/models/quant_model/quant_model.dart';
 import 'package:quant_bot_flutter/models/quant_model/quant_stock_model.dart';
 import 'package:quant_bot_flutter/models/trend_follow_model/trend_follow_model.dart';
 import 'package:quant_bot_flutter/providers/dio_provider.dart';
+import 'package:quant_bot_flutter/providers/profile_provider.dart';
 import 'package:quant_bot_flutter/services/stock_service.dart';
 import 'package:quant_bot_flutter/services/trend_follow_service.dart';
 
@@ -15,6 +16,7 @@ final trendFollowProvider = AsyncNotifierProvider.autoDispose
 class TrendFollowNotifier
     extends AutoDisposeFamilyAsyncNotifier<TrendFollowModel, String> {
   late final StockService _stockService;
+
   @override
   Future<TrendFollowModel> build(String arg) async {
     final dio = ref.read(dioProvider);
@@ -49,16 +51,26 @@ class TrendFollowNotifier
     }
   }
 
-  Future<void> addStockToProfile(
-      String ticker, String quantType, bool notification) async {
+  Future<void> addStockToProfile(String ticker, String quantType,
+      double initialPrice, double initialTrendFollow) async {
     try {
-      await _stockService.addStockToProfile(ticker, quantType);
+      await _stockService.addStockToProfile(
+          ticker, quantType, initialPrice, initialTrendFollow);
+      ref.invalidate(profileStocksProvider);
       // 상태 변경 없이 작업 완료
     } catch (e) {
       // 오류 처리, 하지만 상태 변경은 하지 않음
       print('주식 추가 중 오류 발생: $e');
-      // 필요하다면 여기서 오류를 다시 throw할 수 있습니다.
-      // throw e;
+      rethrow;
+    }
+  }
+
+  Future<void> toggleNotification(String ticker) async {
+    try {
+      await _stockService.toggleNotification(ticker);
+    } catch (e) {
+      print('알림 상태 변경 중 오류 발생: $e');
+      rethrow;
     }
   }
 }

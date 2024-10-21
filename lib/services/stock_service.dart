@@ -1,13 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:quant_bot_flutter/components/custom_toast.dart';
 
 class StockService {
   final Dio dio;
 
   StockService(this.dio);
 
-  Future<void> addStockToProfile(String ticker, String quantType) async {
+  Future<void> addStockToProfile(String ticker, String quantType,
+      double initialPrice, double initialTrendFollow) async {
     final data = {
+      "stock": ticker,
       "quant_type": quantType,
+      "initial_price": initialPrice,
+      "initial_trend_follow": initialTrendFollow,
+      "initial_status": initialPrice > initialTrendFollow ? "BUY" : "SELL"
     };
 
     try {
@@ -22,6 +28,23 @@ class StockService {
     } catch (e) {
       print('예외 발생: $e');
       rethrow;
+    }
+  }
+
+  Future<bool> toggleNotification(String id) async {
+    try {
+      final response = await dio.patch('/quants/$id/notification');
+      // 상태 코드가 200일 때만 성공으로 간주합니다.
+      if (response.statusCode == 200) {
+        print('알림 상태가 변경되었습니다.');
+        return true; // 성공 시 true 반환
+      } else {
+        CustomToast.show(message: '서버와의 연결이 원활하지 않습니다.', isWarn: true);
+        throw Exception('알림 상태 변경 실패: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('예외 발생: $e');
+      return false; // 예외 발생 시 false 반환
     }
   }
 }

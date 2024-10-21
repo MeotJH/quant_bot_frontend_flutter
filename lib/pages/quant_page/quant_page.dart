@@ -4,16 +4,20 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/components/custom_button.dart';
 import 'package:quant_bot_flutter/components/custom_dialog.dart';
 import 'package:quant_bot_flutter/components/line_chart.dart';
 import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
+import 'package:quant_bot_flutter/core/utils.dart';
 import 'package:quant_bot_flutter/models/quant_model/quant_stock_model.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/skeleton_trend_follow_loading.dart';
 import 'package:quant_bot_flutter/pages/quant_page/quant_page_table.dart';
 import 'package:quant_bot_flutter/pages/quant_page/trend_follow_quant_table.dart';
+import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/quant_provider.dart';
+import 'package:quant_bot_flutter/providers/router_provider.dart';
 
 class QuantPage extends ConsumerStatefulWidget {
   final String ticker;
@@ -137,7 +141,8 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                   ),
                   CustomButton(
                     text: '퀀트 알림 설정',
-                    onPressed: () => _handleQuantAlertSetting(widget.ticker),
+                    onPressed: () =>
+                        _handleQuantAlertSetting(widget.ticker, context),
                     textColor: Colors.white,
                     backgroundColor: CustomColors.clearBlue120,
                   ),
@@ -193,14 +198,32 @@ class _QuantPageState extends ConsumerState<QuantPage> {
     );
   }
 
-  Future<void> _handleQuantAlertSetting(String ticker) async {
+  Future<void> _handleQuantAlertSetting(
+      String ticker, BuildContext context) async {
+    final auth = await ref.read(authStorageProvider.future);
+    if (auth == null) {
+      CustomToast.show(message: '로그인이 필요합니다.', isWarn: true);
+
+      if (!context.mounted) return;
+      context.push(RouteNotifier.loginPath);
+      return;
+    }
     final notifier = ref.read(trendFollowProvider(ticker).notifier);
     try {
-      await notifier.addStockToProfile(ticker, 'TF', true);
+      final trendFollowData =
+          await ref.read(trendFollowProvider(ticker).future);
+      final recentStockOne = trendFollowData.recentStockOne;
+
+      final initialPrice = double.parse(recentStockOne.currentPrice);
+      final initialTrendFollow =
+          double.parse(recentStockOne.lastCrossTrendFollow);
+
+      await notifier.addStockToProfile(
+          ticker, 'TF', initialPrice, initialTrendFollow);
       _showSuccessToast('퀀트 알림이 성공적으로 설정되었습니다.');
     } catch (e) {
-      _showErrorToast('퀀트 알림 설정 중 오류가 발생했습니다.');
-      // 로깅 또는 에러 리포팅 로직을 여기에 추가할 수 있습니다.
+      _showErrorToast(getErrorMessage(e));
+      print('퀀트 알림 설정 오류: $e');
     }
   }
 

@@ -74,7 +74,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: CustomColors.black),
                       ),
-                      errorText: signupFormState.isEmailValid ? null : '이메일 형식이 올바르지 않습니다.',
+                      errorText: signupFormState.isEmailValid
+                          ? null
+                          : '이메일 형식이 올바르지 않습니다.',
                     ),
                     controller: signupFormNotifier.emailController,
                   ),
@@ -85,15 +87,17 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '비밀번호 * ${signupFormState.isPasswordValid}',
-                    style: const TextStyle(
+                  const Text(
+                    '비밀번호 * ',
+                    style: TextStyle(
                       fontSize: 12,
                     ),
                   ),
                   CustomPasswordTextField(
                     controller: signupFormNotifier.passwordController,
-                    errorText: signupFormState.isPasswordValid ? null : '비밀번호는 영문,특수문자,숫자가 포함된 8자리 이상이어야 합니다.',
+                    errorText: signupFormState.isPasswordValid
+                        ? null
+                        : '비밀번호는 영문,특수문자,숫자가 포함된 8자리 이상이어야 합니다.',
                   ),
                 ],
               ),
@@ -104,7 +108,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   const Text('비밀번호 확인 *', style: TextStyle(fontSize: 12)),
                   CustomPasswordTextField(
                     controller: signupFormNotifier.passwordDuplicateController,
-                    errorText: signupFormState.isPasswordMatched ? null : '비밀번호가 일치하지 않습니다.',
+                    errorText: signupFormState.isPasswordMatched
+                        ? null
+                        : '비밀번호가 일치하지 않습니다.',
                   ),
                 ],
               ),
@@ -115,7 +121,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   const Text('핸드폰 번호', style: TextStyle(fontSize: 12)),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: 'EX) 홍길동',
+                      hintText: 'EX) 010-1234-5678',
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: CustomColors.gray40),
                       ),

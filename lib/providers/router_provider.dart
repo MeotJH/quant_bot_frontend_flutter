@@ -13,6 +13,9 @@ import '../pages/profile_page/profile_page.dart';
 // navigatorKey를 전역에서 사용하기 위해 선언
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+final routerProvider =
+    NotifierProvider<RouteNotifier, GoRouter>(RouteNotifier.new);
+
 class RouteNotifier extends Notifier<GoRouter> {
   late final GoRouter _router;
 

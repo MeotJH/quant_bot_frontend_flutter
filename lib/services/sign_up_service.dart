@@ -1,19 +1,35 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/models/sign_up_model/sign_up_model.dart';
 
 class SignUpService {
   final SignUpModel model;
-  const SignUpService({required this.model});
+  SignUpModel _modelWithToken = SignUpModel();
+  SignUpService({required this.model});
 
   Future<bool> signUp({required Dio dio}) async {
     validate();
-    final response = await dio.post('/users/sign-up', data: model.toJson());
+    await addAppToken();
+    final response =
+        await dio.post('/users/sign-up', data: _modelWithToken.toJson());
     if (response.statusCode != 200) {
       CustomToast.show(message: '회원가입에 실패했습니다.', isWarn: true);
       return false;
     }
     return true;
+  }
+
+  Future<void> addAppToken() async {
+    print('is platform ::: ${Platform.isAndroid}');
+    if (Platform.isAndroid) {
+      _modelWithToken =
+          model.copyWith(appToken: await FirebaseMessaging.instance.getToken());
+    } else {
+      _modelWithToken = model;
+    }
   }
 
   void validate() {
@@ -45,12 +61,14 @@ class SignUpService {
   static bool validatePassword(String password) {
     // 8자리 이상 문자, 숫자, 특수문자를 포함해야 함
     if (password.isEmpty) return true;
-    final passwordReg = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+    final passwordReg =
+        RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
     return passwordReg.hasMatch(password);
   }
 
   // 비밀번호 유효성 검사
-  static bool validateMatchPassword({required String password, required String passwordDuplicate}) {
+  static bool validateMatchPassword(
+      {required String password, required String passwordDuplicate}) {
     return password == passwordDuplicate;
   }
 }
