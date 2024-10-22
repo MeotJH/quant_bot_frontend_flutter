@@ -16,7 +16,6 @@ final trendFollowProvider = AsyncNotifierProvider.autoDispose
 class TrendFollowNotifier
     extends AutoDisposeFamilyAsyncNotifier<TrendFollowModel, String> {
   late final StockService _stockService;
-
   @override
   Future<TrendFollowModel> build(String arg) async {
     final dio = ref.read(dioProvider);
