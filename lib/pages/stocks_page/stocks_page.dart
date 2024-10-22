@@ -49,7 +49,7 @@ class _StockListPageState extends ConsumerState<StockListPage> {
                           return InkWell(
                             onTap: () async {
                               final item = await CustomDialogDropDown.showCustomDialog(context);
-                              context.push('/quants/${item.code}/${stock.ticker}');
+                              if (context.mounted) context.push('/quants/${item.code}/${stock.ticker}');
                             },
                             child: Container(
                               color: Colors.white,
@@ -125,9 +125,13 @@ class _StockListPageState extends ConsumerState<StockListPage> {
                     },
                     error: (error, stack) => Center(
                           child: Container(
-                              alignment: Alignment.center,
-                              color: CustomColors.white,
-                              child: const Text('문제가 생겼습니다. \n 금방 조치할테니 조금만 기다려주세요.', textAlign: TextAlign.center)),
+                            alignment: Alignment.center,
+                            color: CustomColors.white,
+                            child: const Text(
+                              '서버에 문제가 생겼습니다. \n 개발자 도비가 금방 조치할테니 조금만 기다려주세요.',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
                     loading: () => const Center(
                           child: SkeletonLoadingList(),

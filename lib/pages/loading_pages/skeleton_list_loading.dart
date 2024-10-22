@@ -6,14 +6,18 @@ class SkeletonLoadingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var baseColor = 500;
+    var highlightColor = 100;
     return ListView.builder(
-      itemCount: 10, // 임의의 로딩 아이템 개수
+      itemCount: 4, // 임의의 로딩 아이템 개수
       itemBuilder: (context, index) {
+        if (baseColor > 0) baseColor = baseColor - 100;
+
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: Colors.grey[baseColor]!,
+            highlightColor: Colors.grey[highlightColor]!,
             child: const SkeletonItem(),
           ),
         );

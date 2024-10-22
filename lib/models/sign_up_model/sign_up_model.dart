@@ -17,6 +17,8 @@ class SignUpModel with _$SignUpModel {
     @Default(true) bool isEmailValid,
     @Default(true) bool isPasswordValid,
     @Default(true) bool isPasswordMatched,
+    String? appToken,
   }) = _SignUpModel;
-  factory SignUpModel.fromJson({required Map<String, Object?> json}) => _$SignUpModelFromJson(json);
+  factory SignUpModel.fromJson({required Map<String, Object?> json}) =>
+      _$SignUpModelFromJson(json);
 }

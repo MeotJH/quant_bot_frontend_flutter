@@ -31,7 +31,7 @@ class StocksNotifier extends AutoDisposeAsyncNotifier<List<StockModel>> {
       return stocks;
     } catch (e) {
       print(e);
-      return [];
+      rethrow;
     }
   }
 

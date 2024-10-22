@@ -5,7 +5,7 @@ import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:riverpod/riverpod.dart';
 
 class DioNotifier extends Notifier<Dio> {
-  String local = 'http://127.0.0.1:5000/api/v1';
+  String local = 'http://127.0.0.1:8080/api/v1';
   late Dio _dio;
 
   @override
