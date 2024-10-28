@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quant_bot_flutter/components/custom_dialog.dart';
 import 'package:quant_bot_flutter/components/custom_dialog_dropdown.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/skeleton_list_loading.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/pages/stocks_page/stocks_page_search_bar.dart';
+import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/stocks_provider.dart';
 
 class StockListPage extends ConsumerStatefulWidget {
@@ -26,9 +28,33 @@ class _StockListPageState extends ConsumerState<StockListPage> {
               'assets/images/quant_bot.png',
               height: 70,
             ),
-            const Text('Quantwo Bot', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            const Text(
+              'Quantwo Bot',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await showQuantBotDialog(
+                context: context,
+                title: '로그아웃',
+                content: '로그아웃 하시겠습니까?',
+                isAlert: false,
+                setPositiveAction: () async {
+                  await ref.read(authStorageProvider.notifier).logout();
+                  if (context.mounted) context.go('/login');
+                  
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
           padding: const EdgeInsets.symmetric(vertical: 8),

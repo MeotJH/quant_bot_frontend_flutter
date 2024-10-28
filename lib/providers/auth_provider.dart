@@ -46,9 +46,7 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
 /// SecuredStorage를 사용하지 않음 HTTPS 때문에 후에 AWS로 이주하면 사용할 예정
 
 //로그인 후 auth 토큰 관리하는 상태관리
-final authStorageProvider =
-    AsyncNotifierProvider.autoDispose<AuthStorageNotifier, String?>(
-        AuthStorageNotifier.new);
+final authStorageProvider = AsyncNotifierProvider.autoDispose<AuthStorageNotifier, String?>(AuthStorageNotifier.new);
 
 class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
   late SharedPreferences _prefs;
@@ -78,16 +76,20 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
       return token;
     } catch (e) {
       print(e); // 디버깅을 위해 에러 로그를 출력
-      state =
-          const AsyncValue.error("Failed to decrypt token", StackTrace.empty);
+      state = const AsyncValue.error("Failed to decrypt token", StackTrace.empty);
       return null;
     }
   }
 
-  Future<void> deleteToken() async {
+  Future<void> _deleteToken() async {
     await _ensurePrefsInitialized();
     await _prefs.remove(tokenKey);
     state = const AsyncValue.data(null);
+  }
+
+  Future<void> logout() async {
+    ref.read(dioProvider.notifier).removeAuth();
+    await ref.read(authStorageProvider.notifier)._deleteToken();
   }
 
   Future<String?> getToken() async {
@@ -120,8 +122,7 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
 }
 
 // 인증과 관련된 서버와 통신하는 상태관리
-final authProvider = AsyncNotifierProvider.autoDispose
-    .family<AuthProvider, void, UserAuthModel>(AuthProvider.new);
+final authProvider = AsyncNotifierProvider.autoDispose.family<AuthProvider, void, UserAuthModel>(AuthProvider.new);
 
 class AuthProvider extends AutoDisposeFamilyAsyncNotifier<void, UserAuthModel> {
   @override
@@ -140,20 +141,10 @@ class AuthProvider extends AutoDisposeFamilyAsyncNotifier<void, UserAuthModel> {
     }
 
     final userResponseJson = response.data as Map<String, dynamic>;
-    final userAuthResponseModel =
-        UserAuthResponseModel.fromJson(userResponseJson);
-    ref
-        .read(dioProvider.notifier)
-        .addAuth(token: userAuthResponseModel.authorization);
+    final userAuthResponseModel = UserAuthResponseModel.fromJson(userResponseJson);
+    ref.read(dioProvider.notifier).addAuth(token: userAuthResponseModel.authorization);
 
-    ref
-        .read(authStorageProvider.notifier)
-        .saveToken(userAuthResponseModel.authorization);
-  }
-
-  Future<void> signOut() async {
-    ref.read(dioProvider.notifier).removeAuth();
-    await ref.read(authStorageProvider.notifier).deleteToken();
+    ref.read(authStorageProvider.notifier).saveToken(userAuthResponseModel.authorization);
   }
 }
 
