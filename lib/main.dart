@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:developer';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -20,6 +21,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
+  log('ENVIROMENT: ${dotenv.env['ENVIROMENT']}');
+
   setPathUrlStrategy();
 
   if (!kIsWeb) {
@@ -32,12 +35,10 @@ void main() async {
 Future<void> initNotifications() async {
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
+  const InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   print('token is ::: ${await FirebaseMessaging.instance.getToken()}');
@@ -58,8 +59,7 @@ class _QuantBotState extends ConsumerState<QuantBot> {
       title: 'Quant Bot',
       theme: ThemeData(
         fontFamily: 'Pretendard',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
-            .copyWith(background: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white).copyWith(background: Colors.white),
         dialogBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
