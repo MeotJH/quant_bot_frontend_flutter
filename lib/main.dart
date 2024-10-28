@@ -12,10 +12,10 @@ import 'dart:developer';
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // do SomeThing afeter message
-  print("백그라운드 메시지 처리: ${message.messageId}");
-  print("백그라운드 메시지 처리: ${message.data}");
-  print("백그라운드 메시지 처리: ${message.notification?.title}");
-  print("백그라운드 메시지 처리: ${message.notification?.body}");
+  log("백그라운드 메시지 처리: ${message.messageId}");
+  log("백그라운드 메시지 처리: ${message.data}");
+  log("백그라운드 메시지 처리: ${message.notification?.title}");
+  log("백그라운드 메시지 처리: ${message.notification?.body}");
 }
 
 void main() async {
