@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/constants/quant_type.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/models/profile_stock_model/profile_stock_model.dart';
@@ -18,8 +17,7 @@ class ProfilePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('내 프로필',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        title: const Text('내 프로필', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -81,48 +79,40 @@ class ProfilePage extends ConsumerWidget {
                       children: [
                         Text(
                           stock.ticker,
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           stock.name,
-                          style: TextStyle(
-                              fontSize: 12, color: CustomColors.gray50),
+                          style: TextStyle(fontSize: 12, color: CustomColors.gray50),
                         ),
                         const SizedBox(height: 8),
                         Row(
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 2),
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
                                 color: CustomColors.clearBlue120,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 QuantType.fromCode(stock.quantType).name,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                style: const TextStyle(color: Colors.white, fontSize: 10),
                               ),
                             ),
                             const SizedBox(width: 6),
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 2),
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
                                 color: stock.currentStatus == 'BUY'
                                     ? CustomColors.error.withOpacity(0.1)
-                                    : CustomColors.clearBlue120
-                                        .withOpacity(0.1),
+                                    : CustomColors.clearBlue120.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 stock.currentStatus,
                                 style: TextStyle(
-                                  color: stock.currentStatus == 'BUY'
-                                      ? CustomColors.error
-                                      : CustomColors.clearBlue120,
+                                  color: stock.currentStatus == 'BUY' ? CustomColors.error : CustomColors.clearBlue120,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 10,
                                 ),
@@ -147,8 +137,7 @@ class ProfilePage extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                         decoration: BoxDecoration(
                           color: double.parse(stock.profit) >= 0
                               ? CustomColors.error.withOpacity(0.1)
@@ -162,18 +151,14 @@ class ProfilePage extends ConsumerWidget {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: double.parse(stock.profit) >= 0
-                                    ? CustomColors.error
-                                    : Colors.blue,
+                                color: double.parse(stock.profit) >= 0 ? CustomColors.error : Colors.blue,
                               ),
                             ),
                             Text(
                               '${stock.profitPercent}%',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: double.parse(stock.profit) >= 0
-                                    ? CustomColors.error
-                                    : Colors.blue,
+                                color: double.parse(stock.profit) >= 0 ? CustomColors.error : Colors.blue,
                               ),
                             ),
                           ],
@@ -183,18 +168,11 @@ class ProfilePage extends ConsumerWidget {
                       IconButton(
                         icon: Icon(
                           Icons.notifications,
-                          color: stock.notification
-                              ? CustomColors.brightYellow120
-                              : CustomColors.gray50,
+                          color: stock.notification ? CustomColors.brightYellow120 : CustomColors.gray50,
                           size: 32,
                         ),
                         onPressed: () {
-                          ref
-                              .read(profileStocksProvider.notifier)
-                              .toggleNotification(stock);
-                          CustomToast.show(
-                              message:
-                                  '${stock.name} 알림 : ${stock.notification ? 'Off' : 'On'}');
+                          ref.read(profileStocksProvider.notifier).toggleNotification(stock);
                         },
                         constraints: const BoxConstraints(),
                         padding: EdgeInsets.zero,
