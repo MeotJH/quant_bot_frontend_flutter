@@ -12,7 +12,8 @@ class CustomPasswordTextField extends StatefulWidget {
   final String? errorText;
 
   @override
-  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
+  State<CustomPasswordTextField> createState() =>
+      _CustomPasswordTextFieldState();
 }
 
 class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
@@ -53,6 +54,7 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      textInputAction: TextInputAction.next,
       obscureText: _obscureText,
       decoration: InputDecoration(
         suffixIcon: IconButton(

@@ -46,6 +46,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         fontSize: 12,
                       )),
                   TextField(
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       hintText: 'EX) 김퀀트',
                       enabledBorder: UnderlineInputBorder(
@@ -66,6 +67,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 children: [
                   const Text('이메일 주소 *', style: TextStyle(fontSize: 12)),
                   TextField(
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       hintText: 'EX) quant-bot@mail.dot ',
                       enabledBorder: UnderlineInputBorder(
@@ -111,28 +113,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     errorText: signupFormState.isPasswordMatched
                         ? null
                         : '비밀번호가 일치하지 않습니다.',
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('핸드폰 번호', style: TextStyle(fontSize: 12)),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'EX) 010-1234-5678',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: CustomColors.gray40),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: CustomColors.black),
-                      ),
-                    ),
-                    controller: signupFormNotifier.mobileController,
-                    inputFormatters: [
-                      PhoneInputFormatter(),
-                    ],
                   ),
                 ],
               ),

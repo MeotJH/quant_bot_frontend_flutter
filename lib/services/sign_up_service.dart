@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/models/sign_up_model/sign_up_model.dart';
 
@@ -23,12 +24,12 @@ class SignUpService {
   }
 
   Future<void> addAppToken() async {
-    print('is platform ::: ${Platform.isAndroid}');
-    if (Platform.isAndroid) {
+    debugPrint('is web ::: $kIsWeb');
+    if (kIsWeb) {
+      _modelWithToken = model;
+    } else {
       _modelWithToken =
           model.copyWith(appToken: await FirebaseMessaging.instance.getToken());
-    } else {
-      _modelWithToken = model;
     }
   }
 
