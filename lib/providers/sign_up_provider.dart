@@ -36,7 +36,7 @@ class SignUpFormNotifier extends StateNotifier<SignUpModel> {
             email: '',
             password: '',
             userName: '',
-            mobile: '',
+            mobile: '010-0000-0000',
             isEmailValid: true,
             isPasswordValid: true,
             isPasswordMatched: true,
