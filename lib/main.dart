@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -27,18 +28,28 @@ void main() async {
 
   if (!kIsWeb) {
     await initNotifications();
+    _updateFcmTokenListener();
   }
 
   runApp(const ProviderScope(child: QuantBot()));
 }
 
+Future<void> _updateFcmTokenListener() async {
+  FirebaseMessaging.instance.onTokenRefresh.listen((token) {
+    final container = ProviderContainer();
+    container.read(authStorageProvider.notifier).updateFcmToken(token);
+  });
+}
+
 Future<void> initNotifications() async {
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   print('token is ::: ${await FirebaseMessaging.instance.getToken()}');
@@ -59,7 +70,8 @@ class _QuantBotState extends ConsumerState<QuantBot> {
       title: 'Quant Bot',
       theme: ThemeData(
         fontFamily: 'Pretendard',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white).copyWith(background: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
+            .copyWith(background: Colors.white),
         dialogBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,

@@ -8,6 +8,7 @@ import 'package:quant_bot_flutter/models/user_model/user_auth_response_model.dar
 import 'package:quant_bot_flutter/models/user_model/user_model.dart';
 import 'package:quant_bot_flutter/providers/dio_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer';
 
 /**
 final authStorageProvider = AsyncNotifierProvider.autoDispose<AuthStorageNotifier, String?>(AuthStorageNotifier.new);
@@ -46,7 +47,9 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
 /// SecuredStorage를 사용하지 않음 HTTPS 때문에 후에 AWS로 이주하면 사용할 예정
 
 //로그인 후 auth 토큰 관리하는 상태관리
-final authStorageProvider = AsyncNotifierProvider.autoDispose<AuthStorageNotifier, String?>(AuthStorageNotifier.new);
+final authStorageProvider =
+    AsyncNotifierProvider.autoDispose<AuthStorageNotifier, String?>(
+        AuthStorageNotifier.new);
 
 class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
   late SharedPreferences _prefs;
@@ -76,7 +79,8 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
       return token;
     } catch (e) {
       print(e); // 디버깅을 위해 에러 로그를 출력
-      state = const AsyncValue.error("Failed to decrypt token", StackTrace.empty);
+      state =
+          const AsyncValue.error("Failed to decrypt token", StackTrace.empty);
       return null;
     }
   }
@@ -119,10 +123,28 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
     _user = UserModel.fromJson(userResponseJson);
     return _user!;
   }
+
+  Future<void> updateFcmToken(String newToken) async {
+    try {
+      final dio = ref.read(dioProvider);
+      final response =
+          await dio.patch('/users/fcm-token', data: {'fcmToken': newToken});
+
+      if (response.statusCode != 200) {
+        throw Exception('FCM 토큰 업데이트 실패');
+      }
+
+      log('FCM 토큰이 성공적으로 업데이트되었습니다');
+    } catch (e) {
+      log('FCM 토큰 업데이트 중 오류: $e');
+      // 실패 시 재시도 로직 구현 가능
+    }
+  }
 }
 
 // 인증과 관련된 서버와 통신하는 상태관리
-final authProvider = AsyncNotifierProvider.autoDispose.family<AuthProvider, void, UserAuthModel>(AuthProvider.new);
+final authProvider = AsyncNotifierProvider.autoDispose
+    .family<AuthProvider, void, UserAuthModel>(AuthProvider.new);
 
 class AuthProvider extends AutoDisposeFamilyAsyncNotifier<void, UserAuthModel> {
   @override
@@ -141,14 +163,19 @@ class AuthProvider extends AutoDisposeFamilyAsyncNotifier<void, UserAuthModel> {
     }
 
     final userResponseJson = response.data as Map<String, dynamic>;
-    final userAuthResponseModel = UserAuthResponseModel.fromJson(userResponseJson);
-    ref.read(dioProvider.notifier).addAuth(token: userAuthResponseModel.authorization);
+    final userAuthResponseModel =
+        UserAuthResponseModel.fromJson(userResponseJson);
+    ref
+        .read(dioProvider.notifier)
+        .addAuth(token: userAuthResponseModel.authorization);
 
-    ref.read(authStorageProvider.notifier).saveToken(userAuthResponseModel.authorization);
+    ref
+        .read(authStorageProvider.notifier)
+        .saveToken(userAuthResponseModel.authorization);
   }
 }
 
-//회원가입을 위한 상태관리
+//로그인 위한 상태관리
 final authFormProvider = StateNotifierProvider<AuthFormNotifier, UserAuthModel>(
   (ref) => AuthFormNotifier(),
 );
