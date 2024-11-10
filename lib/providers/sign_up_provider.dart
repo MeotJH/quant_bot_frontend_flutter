@@ -91,6 +91,7 @@ class SignUpNotifier extends AutoDisposeFamilyAsyncNotifier<void, SignUpModel> {
   @override
   Future<void> build(SignUpModel model) async {
     final dio = ref.read(dioProvider);
+    debugPrint('signUpProvider ::: ${model.toJson()}');
     await SignUpService(model: model).signUp(dio: dio);
   }
 }
