@@ -52,7 +52,7 @@ Future<void> initNotifications() async {
       InitializationSettings(android: initializationSettingsAndroid);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  print('token is ::: ${await FirebaseMessaging.instance.getToken()}');
+
 }
 
 class QuantBot extends ConsumerStatefulWidget {

@@ -7,7 +7,8 @@ import 'package:riverpod/riverpod.dart';
 import 'dart:developer';
 
 class DioNotifier extends Notifier<Dio> {
-  String apiUrl = (dotenv.env['ENVIROMENT']?.toLowerCase() ?? 'LOCAL') == 'LOCAL'.toLowerCase()
+  String apiUrl = (dotenv.env['ENVIROMENT']?.toLowerCase() ?? 'LOCAL') ==
+          'LOCAL'.toLowerCase()
       ? 'http://127.0.0.1:8080/api/v1'
       : 'http://quantwo-bot.iptime.org/api/v1';
   late Dio _dio;
@@ -32,9 +33,18 @@ class DioNotifier extends Notifier<Dio> {
         }
 
         if (error.response?.statusCode == 500) {
-          CustomToast.show(message: '서버 오류가 발생했습니다. 개발 도비가 열심히 고칠게요!', isWarn: true);
+          CustomToast.show(
+              message: '서버 오류가 발생했습니다. 개발 도비가 열심히 고칠게요! 🥺', isWarn: true);
           return;
         }
+
+        if (error.response?.statusCode == 400) {
+          CustomToast.show(
+              message: '잘못된 요청입니다. 아마 그런데 개발자 도비 잘못일거예요 😢', isWarn: true);
+          return;
+        }
+
+        log('error ::: ${error.response?.data}');
         return handler.next(error);
       },
     ));

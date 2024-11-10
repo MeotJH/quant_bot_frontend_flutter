@@ -36,7 +36,7 @@ class SignUpFormNotifier extends StateNotifier<SignUpModel> {
             email: '',
             password: '',
             userName: '',
-            mobile: '',
+            mobile: '010-0000-0000',
             isEmailValid: true,
             isPasswordValid: true,
             isPasswordMatched: true,
@@ -91,6 +91,7 @@ class SignUpNotifier extends AutoDisposeFamilyAsyncNotifier<void, SignUpModel> {
   @override
   Future<void> build(SignUpModel model) async {
     final dio = ref.read(dioProvider);
+    debugPrint('signUpProvider ::: ${model.toJson()}');
     await SignUpService(model: model).signUp(dio: dio);
   }
 }
