@@ -6,6 +6,10 @@ import 'package:quant_bot_flutter/pages/auth_pages/login_page.dart';
 import 'package:quant_bot_flutter/pages/auth_pages/sign_up_complete_screen.dart';
 import 'package:quant_bot_flutter/pages/auth_pages/sign_up_screen.dart';
 import 'package:quant_bot_flutter/pages/quant_page/quant_page.dart';
+import 'package:quant_bot_flutter/pages/quant_page/trend_follow/trend_follow_detail_page.dart';
+import 'package:quant_bot_flutter/pages/quant_page/trend_follow/trend_follow_page.dart';
+import 'package:quant_bot_flutter/pages/quant_select_page/quant_select_page.dart';
+import 'package:quant_bot_flutter/pages/quant_select_page/strategy_select_page.dart';
 import 'package:quant_bot_flutter/pages/stocks_page/stocks_page.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import '../pages/profile_page/profile_page.dart';
@@ -42,7 +46,11 @@ class RouteNotifier extends Notifier<GoRouter> {
   static const String loginPath = '/login';
   static const String signUpPath = '/sign-up';
   static const String signUpCompletePath = '/sign-up-complete';
-
+  static const String _strategySelectPath = '/quant-form/strategy';
+  static const String _quantTypePath = '/quant-form/quant';
+  static const String _trendFollowPath = '/quant-form/quant/trend-follow';
+  static const String _trendFollowDetailPath =
+      '/quant-form/quant/trend-follow/:ticker';
   Widget _buildWithToken(
       BuildContext context, NotifierProviderRef<GoRouter> ref) {
     return FutureBuilder<String?>(
@@ -98,6 +106,24 @@ class RouteNotifier extends Notifier<GoRouter> {
           path: signUpCompletePath,
           builder: (context, state) => const SignUpCompleteScreen(),
         ),
+        GoRoute(
+          path: _strategySelectPath,
+          builder: (context, state) => const StrategySelectPage(),
+        ),
+        GoRoute(
+          path: _quantTypePath,
+          builder: (context, state) => const QuantSelectPage(),
+        ),
+        GoRoute(
+          path: _trendFollowPath,
+          builder: (context, state) => const TrendFollowPage(),
+        ),
+        GoRoute(
+          path: _trendFollowDetailPath,
+          builder: (context, state) => TrendFollowDetailPage(
+            ticker: state.pathParameters['ticker']!,
+          ),
+        ),
       ];
 
   @override
@@ -136,6 +162,9 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
                     context.push('/');
                     break;
                   case 1:
+                    context.push(RouteNotifier._strategySelectPath);
+                    break;
+                  case 2:
                     context.push('/profile');
                     break;
                 }
@@ -144,6 +173,10 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.show_chart_rounded),
                   label: 'Stocks',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.add_chart),
+                  label: 'Quants',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
