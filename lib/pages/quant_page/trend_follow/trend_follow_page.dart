@@ -1,59 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quant_bot_flutter/components/custom_dialog.dart';
-import 'package:quant_bot_flutter/components/custom_dialog_dropdown.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/skeleton_list_loading.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/pages/stocks_page/stocks_page_search_bar.dart';
-import 'package:quant_bot_flutter/providers/auth_provider.dart';
+import 'package:quant_bot_flutter/providers/step_form_provider.dart';
 import 'package:quant_bot_flutter/providers/stocks_provider.dart';
 
-class StockListPage extends ConsumerStatefulWidget {
-  const StockListPage({super.key});
+class TrendFollowPage extends ConsumerStatefulWidget {
+  const TrendFollowPage({super.key});
 
   @override
-  ConsumerState<StockListPage> createState() => _StockListPageState();
+  ConsumerState<TrendFollowPage> createState() => _TrendFollowPageState();
 }
 
-class _StockListPageState extends ConsumerState<StockListPage> {
+class _TrendFollowPageState extends ConsumerState<TrendFollowPage> {
   @override
   Widget build(BuildContext context) {
     final stocks = ref.watch(stocksProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/images/quant_bot.png',
-              height: 70,
-            ),
-            const Text(
-              'Quantwo Bot',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+        title: const Text('주식 선택',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await showQuantBotDialog(
-                context: context,
-                title: '로그아웃',
-                content: '로그아웃 하시겠습니까?',
-                isAlert: false,
-                setPositiveAction: () async {
-                  await ref.read(authStorageProvider.notifier).logout();
-                  if (context.mounted) context.go('/login');
-                },
-              );
-            },
-          ),
-        ],
       ),
       body: Container(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -73,9 +47,13 @@ class _StockListPageState extends ConsumerState<StockListPage> {
                           final stock = stocks[index];
                           return InkWell(
                             onTap: () async {
-                              //final item = await CustomDialogDropDown.showCustomDialog(context);
-                              if (context.mounted)
-                                context.push('/quants/TF/${stock.ticker}');
+                              if (context.mounted) {
+                                ref
+                                    .read(stepFormProvider.notifier)
+                                    .setTicker(stock.ticker);
+                                context.push(
+                                    '/quant-form/quant/trend-follow/${stock.ticker}');
+                              }
                             },
                             child: Container(
                               color: Colors.white,

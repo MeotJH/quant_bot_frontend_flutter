@@ -35,6 +35,16 @@ class _QuantPageState extends ConsumerState<QuantPage> {
     final trendFollow = ref.watch(trendFollowProvider(widget.ticker));
     final ticker = widget.ticker;
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('주식 정보',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -108,64 +118,6 @@ class _QuantPageState extends ConsumerState<QuantPage> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               alignment: Alignment.centerLeft,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Stack(
-                    children: [
-                      const Text(
-                        '추세 정보',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 77),
-                        child: InkWell(
-                          onTap: () async {
-                            await showQuantBotDialog(
-                              context: context,
-                              title: '추세추종 투자법 정보',
-                              content: '추세 추종 투자법은 시장의 상승 또는 하락 추세를 따라 매수하거나 매도하는 전략입니다.',
-                            );
-                          },
-                          child: Icon(
-                            CupertinoIcons.question_circle_fill,
-                            size: 18,
-                            color: CustomColors.brightYellow120,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  CustomButton(
-                    text: '퀀트 알림 설정',
-                    onPressed: () => _handleQuantAlertSetting(widget.ticker, context),
-                    textColor: Colors.white,
-                    backgroundColor: CustomColors.clearBlue120,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: trendFollow.when(
-                data: (data) {
-                  final recentStockData = data.recentStockOne;
-                  return TrendFollowQuantTable(recentStockOne: recentStockData);
-                },
-                error: (error, stack) {
-                  return Text('Error: $error');
-                },
-                loading: () => const SkeletonTrendFollowLoading(
-                  skeletonName: SkeletonTrendFollowLoading.trendFollowCardSkeleton,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-              alignment: Alignment.centerLeft,
               child: const Text(
                 '주식 정보',
                 style: TextStyle(
@@ -175,7 +127,7 @@ class _QuantPageState extends ConsumerState<QuantPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: trendFollow.when(
                 data: (data) {
                   final recentStockData = data.recentStockOne;
@@ -185,7 +137,8 @@ class _QuantPageState extends ConsumerState<QuantPage> {
                   return Text('Error: $error');
                 },
                 loading: () => const SkeletonTrendFollowLoading(
-                  skeletonName: SkeletonTrendFollowLoading.trendFollowCardSkeleton,
+                  skeletonName:
+                      SkeletonTrendFollowLoading.trendFollowCardSkeleton,
                 ),
               ),
             ),
@@ -195,7 +148,8 @@ class _QuantPageState extends ConsumerState<QuantPage> {
     );
   }
 
-  Future<void> _handleQuantAlertSetting(String ticker, BuildContext context) async {
+  Future<void> _handleQuantAlertSetting(
+      String ticker, BuildContext context) async {
     final auth = await ref.read(authStorageProvider.future);
     if (auth == null) {
       CustomToast.show(message: '로그인이 필요합니다.', isWarn: true);
@@ -206,13 +160,16 @@ class _QuantPageState extends ConsumerState<QuantPage> {
     }
     final notifier = ref.read(trendFollowProvider(ticker).notifier);
     try {
-      final trendFollowData = await ref.read(trendFollowProvider(ticker).future);
+      final trendFollowData =
+          await ref.read(trendFollowProvider(ticker).future);
       final recentStockOne = trendFollowData.recentStockOne;
 
       final initialPrice = double.parse(recentStockOne.currentPrice);
-      final initialTrendFollow = double.parse(recentStockOne.lastCrossTrendFollow);
+      final initialTrendFollow =
+          double.parse(recentStockOne.lastCrossTrendFollow);
 
-      await notifier.addStockToProfile(ticker, 'TF', initialPrice, initialTrendFollow);
+      await notifier.addStockToProfile(
+          ticker, 'TF', initialPrice, initialTrendFollow);
       _showSuccessToast('퀀트 알림이 성공적으로 설정되었습니다.');
     } catch (e) {
       _showErrorToast(getErrorMessage(e));
@@ -229,15 +186,19 @@ class _QuantPageState extends ConsumerState<QuantPage> {
   }
 
   String _calNetChange(QuantStockModel recentStockOne) {
-    final double netChange = double.parse(recentStockOne.currentPrice) - double.parse(recentStockOne.previousClose);
+    final double netChange = double.parse(recentStockOne.currentPrice) -
+        double.parse(recentStockOne.previousClose);
 
     final strNetChange = netChange.toStringAsFixed(2);
-    final strNetChangePercent = (netChange / double.parse(recentStockOne.previousClose) * 100).toStringAsFixed(2);
+    final strNetChangePercent =
+        (netChange / double.parse(recentStockOne.previousClose) * 100)
+            .toStringAsFixed(2);
     return '\$$strNetChange ($strNetChangePercent%)';
   }
 
   Color _getNetChangeColor(QuantStockModel recentStockOne) {
-    final double netChange = double.parse(recentStockOne.currentPrice) - double.parse(recentStockOne.previousClose);
+    final double netChange = double.parse(recentStockOne.currentPrice) -
+        double.parse(recentStockOne.previousClose);
     return netChange > 0 ? CustomColors.error : CustomColors.clearBlue100;
   }
 }
