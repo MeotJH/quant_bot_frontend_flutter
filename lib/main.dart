@@ -51,8 +51,6 @@ Future<void> initNotifications() async {
   const InitializationSettings initializationSettings =
       InitializationSettings(android: initializationSettingsAndroid);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-
 }
 
 class QuantBot extends ConsumerStatefulWidget {
