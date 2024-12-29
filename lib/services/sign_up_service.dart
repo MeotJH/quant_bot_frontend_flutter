@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,24 +12,48 @@ class SignUpService {
   SignUpService({required this.model});
 
   Future<bool> signUp({required Dio dio}) async {
-    validate();
-    await addAppToken();
-    final response =
-        await dio.post('/users/sign-up', data: _modelWithToken.toJson());
-    if (response.statusCode != 200) {
-      CustomToast.show(message: '회원가입에 실패했습니다.', isWarn: true);
+    try {
+      validate();
+      await addAppToken();
+
+      final response = await dio
+          .post(
+        '/users/sign-up',
+        data: _modelWithToken.toJson(),
+      )
+          .timeout(
+        const Duration(seconds: 10), // 타임아웃 설정
+        onTimeout: () {
+          throw TimeoutException('회원가입 요청 시간이 초과되었습니다.');
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        CustomToast.show(
+            message: '회원가입에 실패했습니다: ${response.statusMessage}', isWarn: true);
+        return false;
+      }
+    } catch (e) {
+      CustomToast.show(
+          message: '회원가입 처리 중 오류가 발생했습니다: ${e.toString()}', isWarn: true);
       return false;
     }
-    return true;
   }
 
   Future<void> addAppToken() async {
-    debugPrint('is web ::: $kIsWeb');
-    if (kIsWeb) {
+    try {
+      if (kIsWeb) {
+        _modelWithToken = model;
+      } else {
+        final token = await FirebaseMessaging.instance.getToken();
+        _modelWithToken = model.copyWith(appToken: token);
+      }
+    } catch (e) {
+      debugPrint('Firebase token error: $e');
+      // Firebase 토큰 획득 실패시에도 계속 진행
       _modelWithToken = model;
-    } else {
-      _modelWithToken =
-          model.copyWith(appToken: await FirebaseMessaging.instance.getToken());
     }
   }
 
@@ -41,11 +65,9 @@ class SignUpService {
       '전화번호가': model.mobile,
     };
 
-    // 빈 필드가 있는지 체크하고 첫 번째로 빈 필드에 대한 오류 메시지를 출력
     for (var entry in fields.entries) {
       if (entry.value.isEmpty) {
-        CustomToast.show(message: '${entry.key} 올바르지 않습니다.', isWarn: true);
-        return;
+        throw Exception('${entry.key} 올바르지 않습니다.');
       }
     }
   }

@@ -97,17 +97,29 @@ class DualMomenTumLineChart extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildLegendItem(legendLabels[0], CustomColors.error),
-              const SizedBox(width: 20),
-              _buildLegendItem(legendLabels[1], CustomColors.clearBlue100),
-              const SizedBox(width: 20),
-              _buildLegendItem(legendLabels[2], Colors.grey),
-            ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildLegendItem(
+                  color: CustomColors.clearBlue120,
+                  label: '국제 전략 퀀트 수익률',
+                ),
+                const SizedBox(width: 10),
+                _buildLegendItem(
+                  color: CustomColors.clearBlue120,
+                  label: '현금 보유',
+                ),
+                const SizedBox(width: 10),
+                _buildLegendItem(
+                  color: CustomColors.gray50,
+                  label: '코스피(EWJ) 보유',
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -129,8 +141,9 @@ class DualMomenTumLineChart extends StatelessWidget {
     );
   }
 
-  Widget _buildLegendItem(String label, Color color) {
+  Widget _buildLegendItem({required Color color, required String label}) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 5),

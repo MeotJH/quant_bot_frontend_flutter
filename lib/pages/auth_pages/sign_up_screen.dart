@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/components/custom_password_field.dart';
+import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 import 'package:quant_bot_flutter/providers/sign_up_provider.dart';
@@ -21,6 +22,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     final signupFormState = ref.watch(signUpFormProvider);
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -127,11 +129,25 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         child: Center(
           child: ElevatedButton(
             onPressed: () async {
-              await ref.read(
-                signUpProvider(ref.watch(signUpFormProvider)).future,
-              );
-              if (!context.mounted) return;
-              context.go(RouteNotifier.signUpCompletePath);
+              try {
+                final result = await ref.read(
+                  signUpProvider(ref.watch(signUpFormProvider)).future,
+                );
+
+                if (context.mounted) {
+                  Navigator.pop(context); // 로딩 닫기
+                  context.go(RouteNotifier.signUpCompletePath);
+                  //context.go('/');
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  Navigator.pop(context); // 로딩 닫기
+                  CustomToast.show(
+                    message: '회원가입에 실패했습니다. 다시 시도해주세요.',
+                    isWarn: true,
+                  );
+                }
+              }
             },
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.grey[300],

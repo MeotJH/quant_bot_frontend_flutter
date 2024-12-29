@@ -3,12 +3,16 @@ import 'package:go_router/go_router.dart';
 import 'package:quant_bot_flutter/components/confetti_animation.dart';
 import 'package:quant_bot_flutter/components/custom_button.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
+import 'package:flutter/foundation.dart';
 
 class SignUpCompleteScreen extends StatelessWidget {
   const SignUpCompleteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // 실제 앱에서만 애니메이션 표시 여부 결정
+    const showAnimation = !kDebugMode || kIsWeb;
+
     return Scaffold(
       body: const SizedBox(
         width: double.infinity,
@@ -23,10 +27,11 @@ class SignUpCompleteScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Positioned.fill(
-              // 여기 추가
-              child: ConfettiAnimation(),
-            ),
+            // 실제 앱에서만 애니메이션 표시
+            if (showAnimation)
+              Positioned.fill(
+                child: ConfettiAnimation(),
+              ),
           ],
         ),
       ),

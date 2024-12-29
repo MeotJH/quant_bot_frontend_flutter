@@ -123,122 +123,74 @@ class StockContainerSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 128.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 64.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-              ],
+            Flexible(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(4),
+                    width: constraints.maxWidth * 0.3,
+                    height: 16.0,
+                    color: Colors.white,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(4),
+                    width: constraints.maxWidth * 0.2,
+                    height: 16.0,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 128.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 64.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-              ],
+            Flexible(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(4),
+                    width: constraints.maxWidth * 0.3,
+                    height: 16.0,
+                    color: Colors.white,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(4),
+                    width: constraints.maxWidth * 0.2,
+                    height: 16.0,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 128.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 64.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-              ],
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 128.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 64.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 128.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 64.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 128.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-                Container(
-                  margin: const EdgeInsets.all(4),
-                  width: 64.0,
-                  height: 16.0,
-                  color: Colors.white,
-                ),
-              ],
+            Flexible(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(4),
+                    width: constraints.maxWidth * 0.3,
+                    height: 16.0,
+                    color: Colors.white,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(4),
+                    width: constraints.maxWidth * 0.2,
+                    height: 16.0,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             ),
           ],
-        )
-      ],
+        );
+      },
     );
   }
 }

@@ -37,58 +37,6 @@ class _DualMomentumInternationalState
       savingsRate: 3,
     );
 
-    Widget buildSkeletonLoading() {
-      return Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(20),
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 24,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    width: double.infinity,
-                    height: 16,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    width: double.infinity,
-                    height: 16,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    width: double.infinity,
-                    height: 16,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              height: 300,
-              color: Colors.white,
-            ),
-          ],
-        ),
-      );
-    }
-
     final provider = ref.watch(dualMomentumInternationalFamilyProvider(params));
 
     return Scaffold(
@@ -144,15 +92,12 @@ class _DualMomentumInternationalState
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomButton(
-                        text: '퀀트 알림 설정',
-                        onPressed: () =>
-                            _handleQuantAlertSetting("AAPL", context),
-                        textColor: Colors.white,
-                        backgroundColor: CustomColors.clearBlue120,
-                      ),
+                    CustomButton(
+                      text: '퀀트 알림 설정',
+                      onPressed: () =>
+                          _handleQuantAlertSetting("AAPL", context),
+                      textColor: Colors.white,
+                      backgroundColor: CustomColors.clearBlue120,
                     ),
                   ],
                 ),

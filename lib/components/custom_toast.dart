@@ -56,11 +56,16 @@ class _CustomToastWidget extends StatelessWidget {
             children: [
               isWarn
                   ? const Icon(Icons.error_outline, color: Colors.red)
-                  : Icon(Icons.check_circle_outline, color: CustomColors.clearBlue120),
+                  : Icon(Icons.check_circle_outline,
+                      color: CustomColors.clearBlue120),
               const SizedBox(width: 8.0),
-              Text(
-                text,
-                style: const TextStyle(color: Colors.white, fontSize: 16.0),
+              Flexible(
+                child: Text(
+                  text,
+                  style: const TextStyle(color: Colors.white, fontSize: 16.0),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
               ),
             ],
           ),

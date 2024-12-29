@@ -127,8 +127,7 @@ class AuthStorageNotifier extends AutoDisposeAsyncNotifier<String?> {
   Future<void> updateFcmToken(String newToken) async {
     try {
       final dio = ref.read(dioProvider);
-      final response =
-          await dio.patch('/users/fcm-token', data: {'fcmToken': newToken});
+      final response = await dio.patch('/users/', data: {'fcmToken': newToken});
 
       if (response.statusCode != 200) {
         throw Exception('FCM 토큰 업데이트 실패');

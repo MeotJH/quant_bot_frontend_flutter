@@ -27,6 +27,7 @@ void main() async {
   setPathUrlStrategy();
 
   if (!kIsWeb) {
+    await Firebase.initializeApp();
     await initNotifications();
     _updateFcmTokenListener();
   }

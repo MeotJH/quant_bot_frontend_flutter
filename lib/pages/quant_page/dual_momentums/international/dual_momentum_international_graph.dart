@@ -23,30 +23,25 @@ class DualMomentumInternationalGraph extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '국제 ETF 듀얼 모멘텀 전략',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               Row(
                 children: [
-                  Text(
-                    etfSymbols.join(', '),
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: CustomColors.gray50,
+                  Flexible(
+                    child: Text(
+                      etfSymbols.join(', '),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
                   GestureDetector(
                     onTap: onTap,
-                    child: Text(
+                    child: const Text(
                       '| \$10,000 달러를 10년간',
                       style: TextStyle(
                         fontSize: 14,
-                        color: CustomColors.gray50,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

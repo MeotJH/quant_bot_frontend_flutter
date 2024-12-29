@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
@@ -7,15 +8,26 @@ import 'package:riverpod/riverpod.dart';
 import 'dart:developer';
 
 class DioNotifier extends Notifier<Dio> {
-  String apiUrl = (dotenv.env['ENVIROMENT']?.toLowerCase() ?? 'LOCAL') ==
-          'LOCAL'.toLowerCase()
-      ? 'http://127.0.0.1:8080/api/v1'
-      : 'http://quantwo-bot.iptime.org/api/v1';
+  late String apiUrl;
   late Dio _dio;
+
+  String resolveApiBaseUrl() {
+    final isLocalEnvironment =
+        (dotenv.env['ENVIROMENT']?.toLowerCase() ?? 'LOCAL') ==
+            'LOCAL'.toLowerCase();
+
+    if (!isLocalEnvironment) {
+      return 'http://quantwo-bot.iptime.org/api/v1';
+    }
+
+    return kIsWeb
+        ? 'http://127.0.0.1:8080/api/v1'
+        : 'http://10.0.2.2:8080/api/v1';
+  }
 
   @override
   Dio build() {
-    log('Dio build: $apiUrl');
+    apiUrl = resolveApiBaseUrl();
     _dio = Dio(BaseOptions(baseUrl: apiUrl));
 
     _dio.interceptors.add(InterceptorsWrapper(
@@ -45,6 +57,7 @@ class DioNotifier extends Notifier<Dio> {
         }
 
         log('error ::: ${error.response?.data}');
+        log('response ::: ${error.response}');
         return handler.next(error);
       },
     ));
