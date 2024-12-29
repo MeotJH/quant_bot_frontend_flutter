@@ -10,13 +10,13 @@ import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/core/utils.dart';
 import 'package:quant_bot_flutter/pages/comm/quant_bot_detail_page_header.dart';
+import 'package:quant_bot_flutter/pages/loading_pages/skeleton_detail_page_loading.dart';
 import 'package:quant_bot_flutter/pages/quant_page/dual_momentums/international/dual_momentum_international_graph.dart';
 import 'package:quant_bot_flutter/pages/quant_page/dual_momentums/international/dual_momentum_international_table.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/dual_momentum_international_provider.dart';
 import 'package:quant_bot_flutter/providers/quant_provider.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
-import 'package:quant_bot_flutter/widgets/quant_line_chart.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DualMomentumInternational extends ConsumerStatefulWidget {
@@ -111,8 +111,24 @@ class _DualMomentumInternationalState
                       error: (error, stack) => Center(
                         child: Text('Error: $error'),
                       ),
-                      loading: () => Center(
-                        child: buildSkeletonLoading(),
+                      loading: () => Column(
+                        children: [
+                          Container(
+                            height: 150,
+                            alignment: Alignment.centerLeft,
+                            child: const SkeletonDetailPageLoading(
+                              skeletonName:
+                                  SkeletonDetailPageLoading.stockInfoSkeleton,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 300,
+                            child: SkeletonDetailPageLoading(
+                              skeletonName:
+                                  SkeletonDetailPageLoading.stockChartSkeleton,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     provider.when(
@@ -120,7 +136,13 @@ class _DualMomentumInternationalState
                         summary: data.summary,
                       ),
                       error: (error, stack) => Text('Error: $error'),
-                      loading: () => buildSkeletonLoading(),
+                      loading: () => const SizedBox(
+                        height: 300,
+                        child: SkeletonDetailPageLoading(
+                          skeletonName:
+                              SkeletonDetailPageLoading.stockInfoCardSkeleton,
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),

@@ -47,7 +47,6 @@ class DualMomentumInternationalFamily
         },
       );
 
-      debugPrint('response: ${response.data}');
       return DualMomentumInternationalModel.fromJson(response.data);
     } catch (e) {
       rethrow;

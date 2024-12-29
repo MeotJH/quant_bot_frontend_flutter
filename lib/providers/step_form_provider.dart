@@ -61,7 +61,6 @@ class StepFormNotifier extends StateNotifier<StepFormModel> {
 
   void setTicker(String ticker) {
     state = state.copyWith(ticker: ticker);
-    print("state :::: ${state.toString()}");
   }
 
   void setInvestmentAmount(double amount) {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class SkeletonTrendFollowLoading extends StatelessWidget {
+class SkeletonDetailPageLoading extends StatelessWidget {
   static const String stockInfoSkeleton = 'StockInfoSkeleton';
   static const String stockChartSkeleton = 'StockChartSkeleton';
   static const String trendFollowCardSkeleton = 'TrendFollowCardSkeleton';
   static const String stockInfoCardSkeleton = 'StockDetailInfoSkeleton';
 
   final String skeletonName;
-  const SkeletonTrendFollowLoading({super.key, required this.skeletonName});
+  const SkeletonDetailPageLoading({super.key, required this.skeletonName});
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
@@ -26,11 +26,11 @@ class SkeletonItems extends StatelessWidget {
   SkeletonItems({super.key, required this.skeletonName});
 
   final Map<String, Widget> skeletonMap = {
-    SkeletonTrendFollowLoading.stockInfoSkeleton: const StockInfoSkeleton(),
-    SkeletonTrendFollowLoading.stockChartSkeleton: const StockChartSkeleton(),
-    SkeletonTrendFollowLoading.trendFollowCardSkeleton:
+    SkeletonDetailPageLoading.stockInfoSkeleton: const StockInfoSkeleton(),
+    SkeletonDetailPageLoading.stockChartSkeleton: const StockChartSkeleton(),
+    SkeletonDetailPageLoading.trendFollowCardSkeleton:
         const StockContainerSkeleton(),
-    SkeletonTrendFollowLoading.stockInfoCardSkeleton:
+    SkeletonDetailPageLoading.stockInfoCardSkeleton:
         const StockContainerSkeleton(),
   };
   @override
@@ -39,7 +39,7 @@ class SkeletonItems extends StatelessWidget {
   }
   //스프링 클라우드, AWS (SQS, ROUTE53, CoudFront, S3,) Cloud Batch
   // 8인 정도
-  // 
+  //
 }
 
 class StockInfoSkeleton extends StatelessWidget {
@@ -47,32 +47,45 @@ class StockInfoSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const radius = 8.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(radius),
+          ),
           width: 100,
           height: 16,
-          color: Colors.white,
         ),
         Container(
           margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(radius),
+          ),
           width: 50,
           height: 16,
-          color: Colors.white,
         ),
         Container(
           margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(radius),
+          ),
           width: 180,
           height: 32,
-          color: Colors.white,
         ),
         Container(
           margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(radius),
+          ),
           width: 30,
           height: 12,
-          color: Colors.white,
         ),
       ],
     );
@@ -92,9 +105,12 @@ class StockChartSkeleton extends StatelessWidget {
         Expanded(
           child: Container(
             margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
             width: double.infinity,
             height: 300,
-            color: Colors.white,
           ),
         ),
       ],
