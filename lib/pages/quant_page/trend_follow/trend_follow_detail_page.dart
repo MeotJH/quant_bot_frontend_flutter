@@ -12,7 +12,8 @@ import 'package:quant_bot_flutter/components/custom_toast.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/core/utils.dart';
 import 'package:quant_bot_flutter/models/quant_model/quant_stock_model.dart';
-import 'package:quant_bot_flutter/pages/loading_pages/skeleton_trend_follow_loading.dart';
+import 'package:quant_bot_flutter/pages/comm/quant_bot_detail_page_header.dart';
+import 'package:quant_bot_flutter/pages/loading_pages/skeleton_detail_page_loading.dart';
 import 'package:quant_bot_flutter/pages/quant_page/trend_follow/trend_follow_quant_table.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/quant_provider.dart';
@@ -34,15 +35,8 @@ class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
     final trendFollow = ref.watch(trendFollowProvider(widget.ticker));
     final ticker = widget.ticker;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('추세추종 전략 저장',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            context.pop();
-          },
-        ),
+      appBar: const QuantBotDetailPageHeader(
+        title: '추세추종 전략 저장',
       ),
       body: Column(
         children: [
@@ -93,9 +87,9 @@ class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
                             ],
                           );
                         },
-                        loading: () => const SkeletonTrendFollowLoading(
+                        loading: () => const SkeletonDetailPageLoading(
                           skeletonName:
-                              SkeletonTrendFollowLoading.stockInfoSkeleton,
+                              SkeletonDetailPageLoading.stockInfoSkeleton,
                         ),
                         error: (error, stack) {
                           return const Text('모..몬가 잘못되었음');
@@ -113,9 +107,9 @@ class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
                       error: (error, stack) {
                         return Text('Error: $error');
                       },
-                      loading: () => const SkeletonTrendFollowLoading(
+                      loading: () => const SkeletonDetailPageLoading(
                         skeletonName:
-                            SkeletonTrendFollowLoading.stockChartSkeleton,
+                            SkeletonDetailPageLoading.stockChartSkeleton,
                       ),
                     ),
                   ),
@@ -169,9 +163,9 @@ class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
                       error: (error, stack) {
                         return Text('Error: $error');
                       },
-                      loading: () => const SkeletonTrendFollowLoading(
+                      loading: () => const SkeletonDetailPageLoading(
                         skeletonName:
-                            SkeletonTrendFollowLoading.trendFollowCardSkeleton,
+                            SkeletonDetailPageLoading.trendFollowCardSkeleton,
                       ),
                     ),
                   ),

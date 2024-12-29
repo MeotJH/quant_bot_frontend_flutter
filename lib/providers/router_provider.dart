@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quant_bot_flutter/constants/router_routes.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/pages/auth_pages/login_page.dart';
 import 'package:quant_bot_flutter/pages/auth_pages/sign_up_complete_screen.dart';
@@ -47,10 +48,6 @@ class RouteNotifier extends Notifier<GoRouter> {
   static const String signUpPath = '/sign-up';
   static const String signUpCompletePath = '/sign-up-complete';
   static const String _strategySelectPath = '/quant-form/strategy';
-  static const String _quantTypePath = '/quant-form/quant';
-  static const String _trendFollowPath = '/quant-form/quant/trend-follow';
-  static const String _trendFollowDetailPath =
-      '/quant-form/quant/trend-follow/:ticker';
   Widget _buildWithToken(
       BuildContext context, NotifierProviderRef<GoRouter> ref) {
     return FutureBuilder<String?>(
@@ -110,20 +107,7 @@ class RouteNotifier extends Notifier<GoRouter> {
           path: _strategySelectPath,
           builder: (context, state) => const StrategySelectPage(),
         ),
-        GoRoute(
-          path: _quantTypePath,
-          builder: (context, state) => const QuantSelectPage(),
-        ),
-        GoRoute(
-          path: _trendFollowPath,
-          builder: (context, state) => const TrendFollowPage(),
-        ),
-        GoRoute(
-          path: _trendFollowDetailPath,
-          builder: (context, state) => TrendFollowDetailPage(
-            ticker: state.pathParameters['ticker']!,
-          ),
-        ),
+        ...quantTypeRoutes,
       ];
 
   @override

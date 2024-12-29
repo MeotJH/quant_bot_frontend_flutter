@@ -22,7 +22,6 @@ class ProfileStockModel {
   });
 
   factory ProfileStockModel.fromJson(Map<String, dynamic> json) {
-    print("json ::::::: $json");
     return ProfileStockModel(
       id: json['id'],
       ticker: json['ticker'],
