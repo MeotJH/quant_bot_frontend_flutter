@@ -15,9 +15,7 @@ import 'package:quant_bot_flutter/pages/quant_page/dual_momentums/international/
 import 'package:quant_bot_flutter/pages/quant_page/dual_momentums/international/dual_momentum_international_table.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/dual_momentum_international_provider.dart';
-import 'package:quant_bot_flutter/providers/quant_provider.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 class DualMomentumInternational extends ConsumerStatefulWidget {
   const DualMomentumInternational({super.key});
@@ -38,6 +36,8 @@ class _DualMomentumInternationalState
     );
 
     final provider = ref.watch(dualMomentumInternationalFamilyProvider(params));
+    final notifier =
+        ref.watch(dualMomentumInternationalFamilyProvider(params).notifier);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -94,8 +94,7 @@ class _DualMomentumInternationalState
                     ),
                     CustomButton(
                       text: '퀀트 알림 설정',
-                      onPressed: () =>
-                          _handleQuantAlertSetting("AAPL", context),
+                      onPressed: () => _handleQuantAlertSetting(notifier),
                       textColor: Colors.white,
                       backgroundColor: CustomColors.clearBlue120,
                     ),
@@ -110,7 +109,7 @@ class _DualMomentumInternationalState
   }
 
   Future<void> _handleQuantAlertSetting(
-      String ticker, BuildContext context) async {
+      DualMomentumInternationalFamily notifier) async {
     final auth = await ref.read(authStorageProvider.future);
     if (auth == null) {
       CustomToast.show(message: '로그인이 필요합니다.', isWarn: true);
@@ -119,18 +118,9 @@ class _DualMomentumInternationalState
       context.push(RouteNotifier.loginPath);
       return;
     }
-    final notifier = ref.read(trendFollowProvider(ticker).notifier);
+
     try {
-      final trendFollowData =
-          await ref.read(trendFollowProvider(ticker).future);
-      final recentStockOne = trendFollowData.recentStockOne;
-
-      final initialPrice = double.parse(recentStockOne.currentPrice);
-      final initialTrendFollow =
-          double.parse(recentStockOne.lastCrossTrendFollow);
-
-      await notifier.addStockToProfile(
-          ticker, 'TF', initialPrice, initialTrendFollow);
+      notifier.saveDualMomentum();
       CustomToast.show(message: '퀀트 알림이 성공적으로 설정되었습니다.');
     } catch (e) {
       CustomToast.show(message: getErrorMessage(e), isWarn: true);

@@ -31,7 +31,7 @@ class QuantStrategyModel {
             profitDescription: '연 수익률 15~20%',
             riskDescription: '최대 손실률 10%',
             icon: Icons.show_chart,
-            route: '/quant-form/quant/trend-follow',
+            route: '/quant-form/quant/trend-follow/description',
           ),
           const QuantStrategyModel(
             name: '국제 ETF 듀얼모멘텀',
@@ -40,7 +40,7 @@ class QuantStrategyModel {
             profitDescription: '연 수익률 6~8%',
             riskDescription: '최대 손실률 3%',
             icon: Icons.show_chart,
-            route: '/quant-form/quant/dual-momentum/international',
+            route: '/quant-form/quant/dual-momentum/international/description',
           ),
           // const QuantStrategyModel(
           //   name: '듀얼모멘텀 전략 2',
