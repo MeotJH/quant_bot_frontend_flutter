@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:quant_bot_flutter/models/dual_momentum_international_model/dual_momentum_international_model.dart';
 import 'package:quant_bot_flutter/providers/dio_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,6 +47,22 @@ class DualMomentumInternationalFamily
       );
 
       return DualMomentumInternationalModel.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> saveDualMomentum() async {
+    final dio = ref.read(dioProvider);
+    try {
+      final response = await dio.post('/quants/dual_momentum', data: {
+        'type': 'DM-INTL',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
     } catch (e) {
       rethrow;
     }
