@@ -15,14 +15,14 @@ class DioNotifier extends Notifier<Dio> {
     final isLocalEnvironment =
         (dotenv.env['ENVIROMENT']?.toLowerCase() ?? 'LOCAL') ==
             'LOCAL'.toLowerCase();
-
+    print('am i local? $isLocalEnvironment');
     if (!isLocalEnvironment) {
       return 'http://quantwo-bot.iptime.org/api/v1';
     }
 
     return kIsWeb
-        ? 'http://127.0.0.1:8080/api/v1'
-        : 'http://10.0.2.2:8080/api/v1';
+        ? 'http://192.168.0.9:5001/api/v1'
+        : 'http://10.0.2.2:5001/api/v1';
   }
 
   @override
@@ -55,9 +55,6 @@ class DioNotifier extends Notifier<Dio> {
               message: '잘못된 요청입니다. 아마 그런데 개발자 도비 잘못일거예요 😢', isWarn: true);
           return;
         }
-
-        log('error ::: ${error.response?.data}');
-        log('response ::: ${error.response}');
         return handler.next(error);
       },
     ));

@@ -139,15 +139,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   context.go(RouteNotifier.signUpCompletePath);
                   //context.go('/');
                 }
-              } catch (e) {
-                if (context.mounted) {
-                  Navigator.pop(context); // 로딩 닫기
-                  CustomToast.show(
-                    message: '회원가입에 실패했습니다. 다시 시도해주세요.',
-                    isWarn: true,
-                  );
-                }
-              }
+              } catch (e) {}
             },
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.grey[300],
