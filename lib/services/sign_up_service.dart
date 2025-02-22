@@ -33,12 +33,19 @@ class SignUpService {
       } else {
         CustomToast.show(
             message: '회원가입에 실패했습니다: ${response.statusMessage}', isWarn: true);
-        return false;
+        throw Exception('회원가입에 실패했습니다: ${response.statusMessage}');
       }
     } catch (e) {
-      CustomToast.show(
-          message: '회원가입 처리 중 오류가 발생했습니다: ${e.toString()}', isWarn: true);
-      return false;
+      if (e is DioException) {
+        final errorCode = e.response?.statusCode;
+        e.message;
+        final data = e.response?.data;
+        CustomToast.show(message: data['message'].toString(), isWarn: true);
+        throw Exception('회원가입 처리 중 오류가 발생했습니다.');
+      } else {
+        CustomToast.show(message: '회원가입 처리 중 오류가 발생했습니다.', isWarn: true);
+        throw Exception('회원가입 처리 중 오류가 발생했습니다.');
+      }
     }
   }
 
