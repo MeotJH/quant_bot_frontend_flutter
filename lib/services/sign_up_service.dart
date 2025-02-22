@@ -41,7 +41,7 @@ class SignUpService {
         e.message;
         final data = e.response?.data;
         CustomToast.show(message: data['message'].toString(), isWarn: true);
-        throw Exception('회원가입 처리 중 오류가 발생했습니다.');
+        throw DioException(requestOptions: data);
       } else {
         CustomToast.show(message: '회원가입 처리 중 오류가 발생했습니다.', isWarn: true);
         throw Exception('회원가입 처리 중 오류가 발생했습니다.');
