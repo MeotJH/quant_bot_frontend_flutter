@@ -17,7 +17,7 @@ class DioNotifier extends Notifier<Dio> {
             'LOCAL'.toLowerCase();
     print('am i local? $isLocalEnvironment');
     if (!isLocalEnvironment) {
-      return 'http://quantwo-bot.iptime.org/api/v1';
+      return 'https://quantwo-bot.iptime.org/api/v1';
     }
 
     return kIsWeb
