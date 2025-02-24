@@ -116,11 +116,13 @@ class LoginScreen extends ConsumerWidget {
   Widget _buildLoginButton(
       BuildContext context, WidgetRef ref, UserAuthModel model) {
     return ElevatedButton(
-      onPressed: () async {
-        await ref.read(authProvider(model).future);
-        if (!context.mounted) return;
-        context.go('/');
-      },
+      onPressed: model.isValid
+          ? () async {
+              await ref.read(authProvider(model).future);
+              if (!context.mounted) return;
+              context.go('/');
+            }
+          : null,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.grey[300],
         backgroundColor: Colors.black,

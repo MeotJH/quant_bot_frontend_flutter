@@ -13,5 +13,8 @@ class UserAuthModel with _$UserAuthModel {
     @Default('') String email,
     @Default('') String password,
   }) = _UserAuthModel;
-  factory UserAuthModel.fromJson({required Map<String, Object?> json}) => _$UserAuthModelFromJson(json);
+  factory UserAuthModel.fromJson({required Map<String, Object?> json}) =>
+      _$UserAuthModelFromJson(json);
+
+  bool get isValid => email.isNotEmpty && password.isNotEmpty;
 }
