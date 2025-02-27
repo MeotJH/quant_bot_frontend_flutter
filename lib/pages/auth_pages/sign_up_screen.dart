@@ -30,7 +30,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.black),
           onPressed: () {
-            context.go('/');
+            context.go(RouteNotifier.stockListPath);
           },
         ),
       ),

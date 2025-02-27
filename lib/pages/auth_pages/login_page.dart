@@ -22,7 +22,7 @@ class LoginScreen extends ConsumerWidget {
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.black),
           onPressed: () {
-            context.go('/');
+            context.go(RouteNotifier.stockListPath);
           },
         ),
       ),
@@ -120,7 +120,7 @@ class LoginScreen extends ConsumerWidget {
           ? () async {
               await ref.read(authProvider(model).future);
               if (!context.mounted) return;
-              context.go('/');
+              context.go(RouteNotifier.stockListPath);
             }
           : null,
       style: ElevatedButton.styleFrom(

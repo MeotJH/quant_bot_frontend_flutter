@@ -40,6 +40,7 @@ class RouteNotifier extends Notifier<GoRouter> {
 
   static const String _initialLocation = '/';
   static const String _stockListPath = '/main';
+  static const String stockListPath = '/main';
   static const String _quantPath = '/quants/:quant/:ticker';
   static const String _profilePath = '/profile';
   static const String loginPath = '/login';
