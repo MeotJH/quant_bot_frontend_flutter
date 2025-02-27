@@ -8,6 +8,7 @@ import 'package:quant_bot_flutter/pages/auth_pages/sign_up_complete_screen.dart'
 import 'package:quant_bot_flutter/pages/auth_pages/sign_up_screen.dart';
 import 'package:quant_bot_flutter/pages/quant_page/quant_page.dart';
 import 'package:quant_bot_flutter/pages/quant_select_page/strategy_select_page.dart';
+import 'package:quant_bot_flutter/pages/splash_pages/splash_page.dart';
 import 'package:quant_bot_flutter/pages/stocks_page/stocks_page.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import '../pages/profile_page/profile_page.dart';
@@ -38,7 +39,7 @@ class RouteNotifier extends Notifier<GoRouter> {
   }
 
   static const String _initialLocation = '/';
-  static const String _stockListPath = '/';
+  static const String _stockListPath = '/main';
   static const String _quantPath = '/quants/:quant/:ticker';
   static const String _profilePath = '/profile';
   static const String loginPath = '/login';
@@ -70,6 +71,10 @@ class RouteNotifier extends Notifier<GoRouter> {
   }
 
   List<GoRoute> _buildRoutes() => [
+        GoRoute(
+          path: _initialLocation,
+          builder: (context, state) => const SplashPage(),
+        ),
         GoRoute(
           path: _stockListPath,
           builder: (context, state) => const StockListPage(),
@@ -172,7 +177,8 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
     final path = widget.state.fullPath;
     bool hideBottomNav = path == RouteNotifier.loginPath ||
         path == RouteNotifier.signUpPath ||
-        path == RouteNotifier.signUpCompletePath;
+        path == RouteNotifier.signUpCompletePath ||
+        path == RouteNotifier._initialLocation;
     return hideBottomNav;
   }
 }

@@ -5,6 +5,8 @@ part 'user_auth_model.g.dart';
 
 @freezed
 class UserAuthModel with _$UserAuthModel {
+  const UserAuthModel._(); // ✅ private 생성자 추가
+
   @JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -13,8 +15,9 @@ class UserAuthModel with _$UserAuthModel {
     @Default('') String email,
     @Default('') String password,
   }) = _UserAuthModel;
-  factory UserAuthModel.fromJson({required Map<String, Object?> json}) =>
-      _$UserAuthModelFromJson(json);
+
+  factory UserAuthModel.fromJson(Map<String, dynamic> json) =>
+      _$UserAuthModelFromJson(json); // ✅ positional parameter로 수정
 
   bool get isValid => email.isNotEmpty && password.isNotEmpty;
 }

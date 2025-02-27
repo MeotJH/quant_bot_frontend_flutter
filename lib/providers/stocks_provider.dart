@@ -2,13 +2,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quant_bot_flutter/models/stock_model/stock_model.dart';
 import 'package:quant_bot_flutter/providers/dio_provider.dart';
 
-final stocksProvider = AsyncNotifierProvider.autoDispose<StocksNotifier, List<StockModel>>(StocksNotifier.new);
+final stocksProvider =
+    AsyncNotifierProvider.autoDispose<StocksNotifier, List<StockModel>>(
+        StocksNotifier.new);
 
 class StocksNotifier extends AutoDisposeAsyncNotifier<List<StockModel>> {
   late List<StockModel> firstFetchStocks = [];
 
   @override
   Future<List<StockModel>> build() async {
+    ref.keepAlive(); // ✅ 데이터가 자동 삭제되지 않도록 유지
     return fetchStocks();
   }
 
@@ -47,8 +50,10 @@ class StocksNotifier extends AutoDisposeAsyncNotifier<List<StockModel>> {
       return;
     }
 
-    final List<StockModel> searchedStocks =
-        firstFetchStocks.where((stock) => stock.ticker.toLowerCase().contains(query.toLowerCase())).toList();
+    final List<StockModel> searchedStocks = firstFetchStocks
+        .where(
+            (stock) => stock.ticker.toLowerCase().contains(query.toLowerCase()))
+        .toList();
     state = AsyncValue.data(searchedStocks);
   }
 }

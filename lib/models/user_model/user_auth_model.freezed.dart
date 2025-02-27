@@ -108,8 +108,8 @@ class __$$UserAuthModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(includeIfNull: false, explicitToJson: true)
-class _$UserAuthModelImpl implements _UserAuthModel {
-  _$UserAuthModelImpl({this.email = '', this.password = ''});
+class _$UserAuthModelImpl extends _UserAuthModel {
+  _$UserAuthModelImpl({this.email = '', this.password = ''}) : super._();
 
   factory _$UserAuthModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserAuthModelImplFromJson(json);
@@ -154,9 +154,10 @@ class _$UserAuthModelImpl implements _UserAuthModel {
   }
 }
 
-abstract class _UserAuthModel implements UserAuthModel {
+abstract class _UserAuthModel extends UserAuthModel {
   factory _UserAuthModel({final String email, final String password}) =
       _$UserAuthModelImpl;
+  _UserAuthModel._() : super._();
 
   factory _UserAuthModel.fromJson(Map<String, dynamic> json) =
       _$UserAuthModelImpl.fromJson;
