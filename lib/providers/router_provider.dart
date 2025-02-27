@@ -145,13 +145,13 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
                 ref.read(bottomNavIndexProvider.notifier).state = index;
                 switch (index) {
                   case 0:
-                    context.push('/');
+                    context.push(RouteNotifier._stockListPath);
                     break;
                   case 1:
                     context.push(RouteNotifier._strategySelectPath);
                     break;
                   case 2:
-                    context.push('/profile');
+                    context.push(RouteNotifier._profilePath);
                     break;
                 }
               },
