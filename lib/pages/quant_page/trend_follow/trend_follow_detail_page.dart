@@ -16,6 +16,7 @@ import 'package:quant_bot_flutter/pages/comm/quant_bot_detail_page_header.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/skeleton_detail_page_loading.dart';
 import 'package:quant_bot_flutter/pages/quant_page/trend_follow/trend_follow_quant_table.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
+import 'package:quant_bot_flutter/providers/loading_provider.dart';
 import 'package:quant_bot_flutter/providers/quant_provider.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 
@@ -30,6 +31,7 @@ class TrendFollowDetailPage extends ConsumerStatefulWidget {
 }
 
 class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final trendFollow = ref.watch(trendFollowProvider(widget.ticker));
@@ -189,6 +191,7 @@ class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
 
   Future<void> _handleQuantAlertSetting(
       String ticker, BuildContext context) async {
+    final loadingNotifier = ref.read(loadingProvider.notifier);
     final auth = await ref.read(authStorageProvider.future);
     if (auth == null) {
       CustomToast.show(message: '로그인이 필요합니다.', isWarn: true);
@@ -199,6 +202,7 @@ class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
     }
     final notifier = ref.read(trendFollowProvider(ticker).notifier);
     try {
+      isLoading = true;
       final trendFollowData =
           await ref.read(trendFollowProvider(ticker).future);
       final recentStockOne = trendFollowData.recentStockOne;
@@ -207,12 +211,15 @@ class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
       final initialTrendFollow =
           double.parse(recentStockOne.lastCrossTrendFollow);
 
-      await notifier.addStockToProfile(
-          ticker, 'TF', initialPrice, initialTrendFollow);
+      loadingNotifier.runWithLoading(() async => await notifier
+          .addStockToProfile(ticker, 'TF', initialPrice, initialTrendFollow));
+
       _showSuccessToast('퀀트 알림이 성공적으로 설정되었습니다.');
     } catch (e) {
       _showErrorToast(getErrorMessage(e));
       print('퀀트 알림 설정 오류: $e');
+    } finally {
+      isLoading = false;
     }
   }
 

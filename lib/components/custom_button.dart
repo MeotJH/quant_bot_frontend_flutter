@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quant_bot_flutter/core/colors.dart';
+import 'package:quant_bot_flutter/providers/loading_provider.dart';
 
-class CustomButton extends StatelessWidget {
+class CustomButton extends ConsumerWidget {
   final VoidCallback? onPressed;
   final Color textColor;
   final Color backgroundColor;
@@ -19,11 +22,14 @@ class CustomButton extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    bool isLoading = ref.watch(loadingProvider);
     return TextButton(
-      onPressed: onPressed,
+      onPressed: isLoading ? null : onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+        backgroundColor: isLoading
+            ? MaterialStateProperty.all<Color>(CustomColors.gray40)
+            : MaterialStateProperty.all<Color>(backgroundColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -37,15 +43,22 @@ class CustomButton extends StatelessWidget {
           children: [
             if (icon != null) icon!,
             if (icon != null) const SizedBox(width: 8),
-            Text(
-              text,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 16,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            isLoading
+                ? const SizedBox(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2.5,
+                    ),
+                  )
+                : Text(
+                    text,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 16,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
           ],
         ),
       ),

@@ -41,21 +41,18 @@ class DioNotifier extends Notifier<Dio> {
       onError: (error, handler) async {
         if (error.response?.statusCode == 401) {
           CustomToast.show(message: 'mail 또는 비밀번호가 올바르지 않습니다.', isWarn: true);
-          return;
         }
 
         if (error.response?.statusCode == 500) {
           CustomToast.show(
               message: '서버 오류가 발생했습니다. 개발 도비가 열심히 고칠게요! 🥺', isWarn: true);
-          return;
         }
 
         if (error.response?.statusCode == 400) {
           CustomToast.show(
               message: '잘못된 요청입니다. 아마 그런데 개발자 도비 잘못일거예요 😢', isWarn: true);
-          return;
         }
-        return handler.next(error);
+        handler.reject(error);
       },
     ));
 

@@ -15,6 +15,7 @@ import 'package:quant_bot_flutter/pages/quant_page/dual_momentums/international/
 import 'package:quant_bot_flutter/pages/quant_page/dual_momentums/international/dual_momentum_international_table.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/dual_momentum_international_provider.dart';
+import 'package:quant_bot_flutter/providers/loading_provider.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 
 class DualMomentumInternational extends ConsumerStatefulWidget {
@@ -110,6 +111,7 @@ class _DualMomentumInternationalState
 
   Future<void> _handleQuantAlertSetting(
       DualMomentumInternationalFamily notifier) async {
+    final loadingNotifier = ref.read(loadingProvider.notifier);
     final auth = await ref.read(authStorageProvider.future);
     if (auth == null) {
       CustomToast.show(message: '로그인이 필요합니다.', isWarn: true);
@@ -120,7 +122,8 @@ class _DualMomentumInternationalState
     }
 
     try {
-      notifier.saveDualMomentum();
+      loadingNotifier
+          .runWithLoading(() async => await notifier.saveDualMomentum());
       CustomToast.show(message: '퀀트 알림이 성공적으로 설정되었습니다.');
     } catch (e) {
       CustomToast.show(message: getErrorMessage(e), isWarn: true);
