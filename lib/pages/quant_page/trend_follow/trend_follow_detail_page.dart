@@ -211,13 +211,12 @@ class _TrendFollowDetailPageState extends ConsumerState<TrendFollowDetailPage> {
       final initialTrendFollow =
           double.parse(recentStockOne.lastCrossTrendFollow);
 
-      loadingNotifier.runWithLoading(() async => await notifier
+      await loadingNotifier.runWithLoading(() async => await notifier
           .addStockToProfile(ticker, 'TF', initialPrice, initialTrendFollow));
 
       _showSuccessToast('퀀트 알림이 성공적으로 설정되었습니다.');
     } catch (e) {
       _showErrorToast(getErrorMessage(e));
-      print('퀀트 알림 설정 오류: $e');
     } finally {
       isLoading = false;
     }
