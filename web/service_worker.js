@@ -1,4 +1,5 @@
    self.addEventListener('push', function(event) {
+    console.info(event,"event::::");
     const data = event.data.json();
     self.registration.showNotification(data.title, {
       body: data.body,
