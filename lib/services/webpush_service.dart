@@ -7,6 +7,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class WebPushService {
+  Dio dio;
+  WebPushService({required this.dio});
+
   Future<void> doJob() async {
     if (kIsWeb) {
       await _unsubscribeAllPush();
@@ -59,10 +62,9 @@ class WebPushService {
     print("✅ 구독 정보: $subscriptionJson");
     print("✅ subscription.getKey.p256dhBytes: $p256dhBytes");
     print("✅ subscription.getKey.authBytes: $authBytes");
-    final dio = Dio();
     // 📌 Flask 서버로 구독 정보 전송
     final response = await dio.post(
-      'http://localhost:8080/api/v1/notification/subscribe',
+      '/notification/subscribe',
       options: Options(headers: {"Content-Type": "application/json"}),
       data: subscriptionJson,
     );
@@ -121,7 +123,7 @@ class WebPushService {
     }
   }
 
-// 📌 Base64 URL을 Uint8Array로 변환하는 함수
+  // 📌 Base64 URL을 Uint8Array로 변환하는 함수
   List<int> urlBase64ToUint8Array(String base64String) {
     // 먼저 URL-safe Base64에 사용되는 문자들을 일반 Base64 문자로 치환합니다.
     String output = base64String.replaceAll('-', '+').replaceAll('_', '/');

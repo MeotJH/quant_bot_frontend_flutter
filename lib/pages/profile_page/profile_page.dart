@@ -5,6 +5,7 @@ import 'package:quant_bot_flutter/constants/quant_type.dart';
 import 'package:quant_bot_flutter/core/colors.dart';
 import 'package:quant_bot_flutter/models/profile_stock_model/profile_stock_model.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/profile_info_skeleton.dart';
+import 'package:quant_bot_flutter/providers/dio_provider.dart';
 import 'package:quant_bot_flutter/providers/profile_provider.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/skeleton_list_loading.dart';
 import 'package:quant_bot_flutter/services/webpush_service.dart';
@@ -17,6 +18,7 @@ class ProfilePage extends ConsumerWidget {
     final profileStocks = ref.watch(profileStocksProvider);
     final profileInfo = ref.watch(profileInfoProvider);
     final isLight = ref.watch(lightSwitchProvider);
+    final dio = ref.read(dioProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +51,8 @@ class ProfilePage extends ConsumerWidget {
                             activeColor: CustomColors.clearBlue100,
                             onChanged: (bool value) async {
                               //웹푸시 서비스 등록하는 부분 알림On 처리하면 넣는다.
-                              WebPushService webPushService = WebPushService();
+                              WebPushService webPushService =
+                                  WebPushService(dio: dio);
                               webPushService.doJob();
 
                               ref.read(lightSwitchProvider.notifier).state =
