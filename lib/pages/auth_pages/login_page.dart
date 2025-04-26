@@ -8,8 +8,6 @@ import 'package:quant_bot_flutter/models/user_model/user_auth_model.dart';
 import 'package:quant_bot_flutter/providers/auth_provider.dart';
 import 'package:quant_bot_flutter/providers/router_provider.dart';
 
-import 'package:quant_bot_flutter/services/webpush_service.dart';
-
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 

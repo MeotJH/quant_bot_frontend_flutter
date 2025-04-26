@@ -49,6 +49,7 @@ _$SummaryImpl _$$SummaryImplFromJson(Map<String, dynamic> json) =>
       totalReturn: (json['total_return'] as num).toDouble(),
       cashHoldReturn: (json['cash_hold_return'] as num).toDouble(),
       ewyHoldReturn: (json['ewy_hold_return'] as num).toDouble(),
+      finalBestEtf: json['final_best_etf'] as String,
     );
 
 Map<String, dynamic> _$$SummaryImplToJson(_$SummaryImpl instance) =>
@@ -58,4 +59,5 @@ Map<String, dynamic> _$$SummaryImplToJson(_$SummaryImpl instance) =>
       'total_return': instance.totalReturn,
       'cash_hold_return': instance.cashHoldReturn,
       'ewy_hold_return': instance.ewyHoldReturn,
+      'final_best_etf': instance.finalBestEtf,
     };

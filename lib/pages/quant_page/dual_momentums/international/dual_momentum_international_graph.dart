@@ -76,6 +76,14 @@ class DualMomentumInternationalGraph extends StatelessWidget {
                           : CustomColors.clearBlue100,
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  Text(
+                    ' 현재포지션 🎯 ${data.summary.finalBestEtf.toUpperCase()}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: CustomColors.black,
+                    ),
+                  ),
                 ],
               ),
             ],

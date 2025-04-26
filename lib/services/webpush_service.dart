@@ -4,9 +4,17 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class WebPushService {
-  Future<void> subscribeToPush() async {
+  Future<void> doJob() async {
+    if (kIsWeb) {
+      await _unsubscribeAllPush();
+      await _subscribeToPush();
+    } else {}
+  }
+
+  Future<void> _subscribeToPush() async {
     const publicKey =
         "BIlHgOs-gz1uDm-FWUU6RNHLR8onrvuGtlgoUB4BfQuhEJ51vkAPm1nBTy6ZZn8-fqESnQFbBzP0AXgkB6bHuRs="; // VAPID 공개 키
 
@@ -66,7 +74,7 @@ class WebPushService {
     }
   }
 
-  Future<void> unsubscribeAllPush() async {
+  Future<void> _unsubscribeAllPush() async {
     print("🔹 현재 등록된 모든 푸시 구독 삭제 시작...");
 
     // 📌 Service Worker가 등록되었는지 확인

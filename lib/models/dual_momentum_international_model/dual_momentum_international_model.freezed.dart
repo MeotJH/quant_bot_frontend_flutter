@@ -481,6 +481,8 @@ mixin _$Summary {
   double get cashHoldReturn => throw _privateConstructorUsedError;
   @JsonKey(name: 'ewy_hold_return')
   double get ewyHoldReturn => throw _privateConstructorUsedError;
+  @JsonKey(name: 'final_best_etf')
+  String get finalBestEtf => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -497,7 +499,8 @@ abstract class $SummaryCopyWith<$Res> {
       @JsonKey(name: 'final_capital') double finalCapital,
       @JsonKey(name: 'total_return') double totalReturn,
       @JsonKey(name: 'cash_hold_return') double cashHoldReturn,
-      @JsonKey(name: 'ewy_hold_return') double ewyHoldReturn});
+      @JsonKey(name: 'ewy_hold_return') double ewyHoldReturn,
+      @JsonKey(name: 'final_best_etf') String finalBestEtf});
 }
 
 /// @nodoc
@@ -518,6 +521,7 @@ class _$SummaryCopyWithImpl<$Res, $Val extends Summary>
     Object? totalReturn = null,
     Object? cashHoldReturn = null,
     Object? ewyHoldReturn = null,
+    Object? finalBestEtf = null,
   }) {
     return _then(_value.copyWith(
       initialCapital: null == initialCapital
@@ -540,6 +544,10 @@ class _$SummaryCopyWithImpl<$Res, $Val extends Summary>
           ? _value.ewyHoldReturn
           : ewyHoldReturn // ignore: cast_nullable_to_non_nullable
               as double,
+      finalBestEtf: null == finalBestEtf
+          ? _value.finalBestEtf
+          : finalBestEtf // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -556,7 +564,8 @@ abstract class _$$SummaryImplCopyWith<$Res> implements $SummaryCopyWith<$Res> {
       @JsonKey(name: 'final_capital') double finalCapital,
       @JsonKey(name: 'total_return') double totalReturn,
       @JsonKey(name: 'cash_hold_return') double cashHoldReturn,
-      @JsonKey(name: 'ewy_hold_return') double ewyHoldReturn});
+      @JsonKey(name: 'ewy_hold_return') double ewyHoldReturn,
+      @JsonKey(name: 'final_best_etf') String finalBestEtf});
 }
 
 /// @nodoc
@@ -575,6 +584,7 @@ class __$$SummaryImplCopyWithImpl<$Res>
     Object? totalReturn = null,
     Object? cashHoldReturn = null,
     Object? ewyHoldReturn = null,
+    Object? finalBestEtf = null,
   }) {
     return _then(_$SummaryImpl(
       initialCapital: null == initialCapital
@@ -597,6 +607,10 @@ class __$$SummaryImplCopyWithImpl<$Res>
           ? _value.ewyHoldReturn
           : ewyHoldReturn // ignore: cast_nullable_to_non_nullable
               as double,
+      finalBestEtf: null == finalBestEtf
+          ? _value.finalBestEtf
+          : finalBestEtf // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -609,7 +623,8 @@ class _$SummaryImpl implements _Summary {
       @JsonKey(name: 'final_capital') required this.finalCapital,
       @JsonKey(name: 'total_return') required this.totalReturn,
       @JsonKey(name: 'cash_hold_return') required this.cashHoldReturn,
-      @JsonKey(name: 'ewy_hold_return') required this.ewyHoldReturn});
+      @JsonKey(name: 'ewy_hold_return') required this.ewyHoldReturn,
+      @JsonKey(name: 'final_best_etf') required this.finalBestEtf});
 
   factory _$SummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$SummaryImplFromJson(json);
@@ -629,10 +644,13 @@ class _$SummaryImpl implements _Summary {
   @override
   @JsonKey(name: 'ewy_hold_return')
   final double ewyHoldReturn;
+  @override
+  @JsonKey(name: 'final_best_etf')
+  final String finalBestEtf;
 
   @override
   String toString() {
-    return 'Summary(initialCapital: $initialCapital, finalCapital: $finalCapital, totalReturn: $totalReturn, cashHoldReturn: $cashHoldReturn, ewyHoldReturn: $ewyHoldReturn)';
+    return 'Summary(initialCapital: $initialCapital, finalCapital: $finalCapital, totalReturn: $totalReturn, cashHoldReturn: $cashHoldReturn, ewyHoldReturn: $ewyHoldReturn, finalBestEtf: $finalBestEtf)';
   }
 
   @override
@@ -649,13 +667,15 @@ class _$SummaryImpl implements _Summary {
             (identical(other.cashHoldReturn, cashHoldReturn) ||
                 other.cashHoldReturn == cashHoldReturn) &&
             (identical(other.ewyHoldReturn, ewyHoldReturn) ||
-                other.ewyHoldReturn == ewyHoldReturn));
+                other.ewyHoldReturn == ewyHoldReturn) &&
+            (identical(other.finalBestEtf, finalBestEtf) ||
+                other.finalBestEtf == finalBestEtf));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, initialCapital, finalCapital,
-      totalReturn, cashHoldReturn, ewyHoldReturn);
+      totalReturn, cashHoldReturn, ewyHoldReturn, finalBestEtf);
 
   @JsonKey(ignore: true)
   @override
@@ -677,8 +697,9 @@ abstract class _Summary implements Summary {
       @JsonKey(name: 'final_capital') required final double finalCapital,
       @JsonKey(name: 'total_return') required final double totalReturn,
       @JsonKey(name: 'cash_hold_return') required final double cashHoldReturn,
-      @JsonKey(name: 'ewy_hold_return')
-      required final double ewyHoldReturn}) = _$SummaryImpl;
+      @JsonKey(name: 'ewy_hold_return') required final double ewyHoldReturn,
+      @JsonKey(name: 'final_best_etf')
+      required final String finalBestEtf}) = _$SummaryImpl;
 
   factory _Summary.fromJson(Map<String, dynamic> json) = _$SummaryImpl.fromJson;
 
@@ -697,6 +718,9 @@ abstract class _Summary implements Summary {
   @override
   @JsonKey(name: 'ewy_hold_return')
   double get ewyHoldReturn;
+  @override
+  @JsonKey(name: 'final_best_etf')
+  String get finalBestEtf;
   @override
   @JsonKey(ignore: true)
   _$$SummaryImplCopyWith<_$SummaryImpl> get copyWith =>

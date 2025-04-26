@@ -7,6 +7,7 @@ import 'package:quant_bot_flutter/models/profile_stock_model/profile_stock_model
 import 'package:quant_bot_flutter/pages/loading_pages/profile_info_skeleton.dart';
 import 'package:quant_bot_flutter/providers/profile_provider.dart';
 import 'package:quant_bot_flutter/pages/loading_pages/skeleton_list_loading.dart';
+import 'package:quant_bot_flutter/services/webpush_service.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -15,6 +16,7 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profileStocks = ref.watch(profileStocksProvider);
     final profileInfo = ref.watch(profileInfoProvider);
+    final isLight = ref.watch(lightSwitchProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +29,39 @@ class ProfilePage extends ConsumerWidget {
         child: Column(
           children: [
             profileInfo.when(
-              data: (widget) => widget,
+              data: (widget) => Container(
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    widget,
+                    const Spacer(),
+                    Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('알림', style: TextStyle(fontSize: 14)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 0),
+                          child: Switch(
+                            value: isLight,
+                            activeColor: CustomColors.clearBlue100,
+                            onChanged: (bool value) async {
+                              //웹푸시 서비스 등록하는 부분 알림On 처리하면 넣는다.
+                              WebPushService webPushService = WebPushService();
+                              webPushService.doJob();
+
+                              ref.read(lightSwitchProvider.notifier).state =
+                                  value;
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
               loading: () => const ProfileInfoSkeleton(),
               error: (error, stack) => Text('프로필 정보 로딩 오류: $error'),
             ),
@@ -126,7 +160,7 @@ class ProfilePage extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          stock.ticker,
+                          stock.ticker.toUpperCase(),
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),

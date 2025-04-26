@@ -118,3 +118,5 @@ final profileInfoProvider = FutureProvider<Widget>((ref) async {
   final authStorageNotifier = ref.read(authStorageProvider.notifier);
   return buildProfileInfo(authStorageNotifier);
 });
+
+final lightSwitchProvider = StateProvider<bool>((ref) => true);
